@@ -34,7 +34,6 @@ import android.widget.Toast;
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Locale;
 
 import org.tensorflow.lite.examples.detection.customview.OverlayView;
 import org.tensorflow.lite.examples.detection.customview.OverlayView.DrawCallback;
@@ -219,23 +218,14 @@ public class DetectorActivity extends CameraActivity implements OnImageAvailable
             trackingOverlay.postInvalidate();
 
             computingDetection = false;
-
-            runOnUiThread(
-                new Runnable() {
-                  @Override
-                  public void run() {
-                    showFrameInfo(previewWidth + "x" + previewHeight);
-                    showCropInfo(cropCopyBitmap.getWidth() + "x" + cropCopyBitmap.getHeight());
-                    showInference(lastProcessingTimeMs + "ms");
-                  }
-                });
+            
           }
         });
   }
 
   @Override
   protected int getLayoutId() {
-    return R.layout.tfe_od_camera_connection_fragment_tracking;
+    return R.layout.camera_connection_fragment_tracking;
   }
 
   @Override
@@ -252,10 +242,5 @@ public class DetectorActivity extends CameraActivity implements OnImageAvailable
   @Override
   protected void setUseNNAPI(final boolean isChecked) {
     runInBackground(() -> detector.setUseNNAPI(isChecked));
-  }
-
-  @Override
-  protected void setNumThreads(final int numThreads) {
-    runInBackground(() -> detector.setNumThreads(numThreads));
   }
 }
