@@ -47,9 +47,9 @@ import android.widget.Toast;
 import java.nio.ByteBuffer;
 import java.util.Locale;
 
-import org.tensorflow.lite.examples.detection.env.ImageUtils;
-import org.tensorflow.lite.examples.detection.env.Logger;
-import org.tensorflow.lite.examples.detection.tracking.TxtToSpeechWrapper;
+import com.drunkornot.lingudetect.env.ImageUtils;
+import com.drunkornot.lingudetect.env.Logger;
+import com.drunkornot.lingudetect.lingu.TxtToSpeechWrapper;
 
 public abstract class CameraActivity extends AppCompatActivity
     implements OnImageAvailableListener,

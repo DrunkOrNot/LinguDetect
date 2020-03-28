@@ -13,7 +13,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 ==============================================================================*/
 
-package org.tensorflow.lite.examples.detection.tflite;
+package com.drunkornot.lingudetect.tflite;
 
 import android.content.res.AssetFileDescriptor;
 import android.content.res.AssetManager;
@@ -35,7 +35,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Vector;
 import org.tensorflow.lite.Interpreter;
-import org.tensorflow.lite.examples.detection.env.Logger;
+import com.drunkornot.lingudetect.env.Logger;
 
 /**
  * Wrapper for frozen detection models trained using the Tensorflow Object Detection API:
@@ -96,7 +96,7 @@ public class TFLiteObjectDetectionAPIModel implements Classifier {
    * @param isQuantized Boolean representing model is quantized or not
    * @return
    */
-  public static org.tensorflow.lite.examples.detection.tflite.Classifier create(
+  public static com.drunkornot.lingudetect.tflite.Classifier create(
       final AssetManager assetManager,
       final String modelFilename,
       final String labelFilename,

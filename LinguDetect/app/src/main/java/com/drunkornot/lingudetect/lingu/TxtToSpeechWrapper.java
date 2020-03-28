@@ -1,4 +1,4 @@
-package org.tensorflow.lite.examples.detection.tracking;
+package com.drunkornot.lingudetect.lingu;
 
 import android.speech.tts.TextToSpeech;
 

@@ -59,8 +59,8 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
-import org.tensorflow.lite.examples.detection.customview.AutoFitTextureView;
-import org.tensorflow.lite.examples.detection.env.Logger;
+import com.drunkornot.lingudetect.customview.AutoFitTextureView;
+import com.drunkornot.lingudetect.env.Logger;
 
 @SuppressLint("ValidFragment")
 public class CameraConnectionFragment extends Fragment {
