@@ -39,6 +39,7 @@ import com.drunkornot.lingudetect.customview.OverlayView.DrawCallback;
 import com.drunkornot.lingudetect.env.BorderedText;
 import com.drunkornot.lingudetect.env.ImageUtils;
 import com.drunkornot.lingudetect.env.Logger;
+import com.drunkornot.lingudetect.lingu.ResultsProcessor;
 import com.drunkornot.lingudetect.tflite.Classifier;
 import com.drunkornot.lingudetect.tflite.TFLiteObjectDetectionAPIModel;
 import com.drunkornot.lingudetect.tracking.MultiBoxTracker;
@@ -66,6 +67,7 @@ public class DetectorActivity extends CameraActivity implements OnImageAvailable
   private Integer sensorOrientation;
 
   private Classifier detector;
+  private ResultsProcessor processor;
 
   private long lastProcessingTimeMs;
   private Bitmap rgbFrameBitmap = null;
@@ -199,6 +201,7 @@ public class DetectorActivity extends CameraActivity implements OnImageAvailable
                 final List<Classifier.Recognition> mappedRecognitions =
                         new LinkedList<Classifier.Recognition>();
                 for (final Classifier.Recognition result : results) {
+                  processor.ProcessResults(results, minimumConfidence);
                   final RectF location = result.getLocation();
                   if (location != null && result.getConfidence() >= minimumConfidence) {
                     canvas.drawRect(location, paint);

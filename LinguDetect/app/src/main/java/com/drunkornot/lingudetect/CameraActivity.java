@@ -36,7 +36,6 @@ import android.os.HandlerThread;
 import android.os.Trace;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.speech.tts.TextToSpeech;
 import android.util.Size;
 import android.view.Surface;
 import android.view.View;
@@ -45,11 +44,9 @@ import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 import java.nio.ByteBuffer;
-import java.util.Locale;
 
 import com.drunkornot.lingudetect.env.ImageUtils;
 import com.drunkornot.lingudetect.env.Logger;
-import com.drunkornot.lingudetect.lingu.TxtToSpeechWrapper;
 
 public abstract class CameraActivity extends AppCompatActivity
     implements OnImageAvailableListener,
@@ -83,17 +80,6 @@ public abstract class CameraActivity extends AppCompatActivity
     getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
     setContentView(R.layout.activity_camera);
-
-    TxtToSpeechWrapper.instance = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
-      @Override
-      public void onInit(int status) {
-        if(status == TextToSpeech.SUCCESS) {
-          TxtToSpeechWrapper.instance.setLanguage(Locale.getDefault());
-          TxtToSpeechWrapper.instance.getVoice();
-          TxtToSpeechWrapper.instance.speak("Initialization complete", TextToSpeech.QUEUE_FLUSH, null, "troll");
-        }
-      }
-    });
 
     if (hasPermission()) {
       setFragment();
