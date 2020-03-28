@@ -2,6 +2,7 @@ package com.drunkornot.lingudetect.lingu;
 
 import com.drunkornot.lingudetect.tflite.Classifier;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ResultsProcessor {
@@ -16,12 +17,28 @@ public class ResultsProcessor {
     // Display it
     // Play on speaker
     // Update user dictionary
+    //
+    //
+    // void CombineWithPrevious();
+
+    private List<IDisplayResultsListener> listeners = new ArrayList<IDisplayResultsListener>();
 
     public ResultsProcessor() {
 
     }
 
+    public void AddListener(IDisplayResultsListener listener) {
+        listeners.add(listener);
+    }
+
+    void PromoteResult(Result result) {
+        //TODO actual implementation; this is quick test
+        for(IDisplayResultsListener listener : listeners) {
+            listener.onDisplayResult(result);
+        }
+    }
     public void ProcessResults(List<Classifier.Recognition> results, float minConfidence) {
+        PromoteResult(new Result());
         // Decide if any of the results should be promoted
 
 //        for (final Classifier.Recognition result : results) {

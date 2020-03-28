@@ -17,6 +17,7 @@
 package com.drunkornot.lingudetect;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.pm.PackageManager;
@@ -40,6 +41,7 @@ import android.util.Size;
 import android.view.Surface;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.Toast;
@@ -47,12 +49,16 @@ import java.nio.ByteBuffer;
 
 import com.drunkornot.lingudetect.env.ImageUtils;
 import com.drunkornot.lingudetect.env.Logger;
+import com.drunkornot.lingudetect.lingu.IDisplayResultsListener;
+import com.drunkornot.lingudetect.lingu.Result;
+import com.drunkornot.lingudetect.lingu.ResultsProcessor;
 
 public abstract class CameraActivity extends AppCompatActivity
     implements OnImageAvailableListener,
         Camera.PreviewCallback,
         CompoundButton.OnCheckedChangeListener,
-        View.OnClickListener {
+        View.OnClickListener,
+        IDisplayResultsListener {
   private static final Logger LOGGER = new Logger();
 
   private static final int PERMISSIONS_REQUEST = 1;
@@ -60,6 +66,7 @@ public abstract class CameraActivity extends AppCompatActivity
   private static final String PERMISSION_CAMERA = Manifest.permission.CAMERA;
   protected int previewWidth = 0;
   protected int previewHeight = 0;
+  protected ResultsProcessor processor;
   private boolean debug = false;
   private Handler handler;
   private HandlerThread handlerThread;
@@ -71,6 +78,7 @@ public abstract class CameraActivity extends AppCompatActivity
   private Runnable postInferenceCallback;
   private Runnable imageConverter;
 
+  private Button btnChangeCombineResults;
   private LinearLayout gestureLayout;
 
   @Override
@@ -86,6 +94,19 @@ public abstract class CameraActivity extends AppCompatActivity
     } else {
       requestPermission();
     }
+
+    processor = new ResultsProcessor();
+    processor.AddListener(this);
+
+    btnChangeCombineResults = findViewById(R.id.btnCombine);
+    btnChangeCombineResults.setOnClickListener(new View.OnClickListener() {
+      @SuppressLint("SetTextI18n")
+      @Override
+      public void onClick(View v) {
+        //TODO change processing mode to displaying combined results
+        // processor.EnableCombine(true);
+      }
+    });
 
   }
 
@@ -125,6 +146,7 @@ public abstract class CameraActivity extends AppCompatActivity
     }
 
     isProcessingFrame = true;
+    yuvBytes[0] = bytes;
     yuvBytes[0] = bytes;
     yRowStride = previewWidth;
 
@@ -275,6 +297,24 @@ public abstract class CameraActivity extends AppCompatActivity
 
   @Override
   public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+  }
+
+  @Override
+  public void onDisplayResult(Result result) {
+    // TODO Implementation
+    // below is test if can update UI
+    runOnUiThread(new Runnable() {
+      @Override
+      public void run() {
+        btnChangeCombineResults.setText("success");
+      }
+    });
+
+  }
+
+  @Override
+  public void onDisplayCombinedResult(Result summand1, Result summand2, Result combinedResult) {
+    //TODO Implementation
   }
 
   private static boolean allPermissionsGranted(final int[] grantResults) {

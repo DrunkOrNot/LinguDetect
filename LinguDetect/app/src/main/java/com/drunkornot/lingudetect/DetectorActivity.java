@@ -29,6 +29,7 @@ import android.media.ImageReader.OnImageAvailableListener;
 import android.os.SystemClock;
 import android.util.Size;
 import android.util.TypedValue;
+import android.widget.Button;
 import android.widget.Toast;
 import java.io.IOException;
 import java.util.LinkedList;
@@ -67,7 +68,6 @@ public class DetectorActivity extends CameraActivity implements OnImageAvailable
   private Integer sensorOrientation;
 
   private Classifier detector;
-  private ResultsProcessor processor;
 
   private long lastProcessingTimeMs;
   private Bitmap rgbFrameBitmap = null;
@@ -192,11 +192,6 @@ public class DetectorActivity extends CameraActivity implements OnImageAvailable
                 paint.setStrokeWidth(2.0f);
 
                 float minimumConfidence = MINIMUM_CONFIDENCE_TF_OD_API;
-                switch (MODE) {
-                  case TF_OD_API:
-                    minimumConfidence = MINIMUM_CONFIDENCE_TF_OD_API;
-                    break;
-                }
 
                 final List<Classifier.Recognition> mappedRecognitions =
                         new LinkedList<Classifier.Recognition>();
@@ -217,6 +212,7 @@ public class DetectorActivity extends CameraActivity implements OnImageAvailable
               }
             });
   }
+
 
   @Override
   protected int getLayoutId() {
