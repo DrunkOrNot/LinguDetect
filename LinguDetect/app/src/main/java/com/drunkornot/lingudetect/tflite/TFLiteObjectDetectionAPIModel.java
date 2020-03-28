@@ -89,14 +89,14 @@ public class TFLiteObjectDetectionAPIModel implements Classifier {
 
   /**
    * Initializes a native TensorFlow session for classifying images.
-   *
-   * @param assetManager The asset manager to be used to load assets.
+   *  @param assetManager The asset manager to be used to load assets.
    * @param modelFilename The filepath of the model GraphDef protocol buffer.
    * @param labelFilename The filepath of label file for classes.
    * @param inputSize The size of image input
    * @param isQuantized Boolean representing model is quantized or not
+   * @return
    */
-  public static Classifier create(
+  public static org.tensorflow.lite.examples.detection.tflite.Classifier create(
       final AssetManager assetManager,
       final String modelFilename,
       final String labelFilename,

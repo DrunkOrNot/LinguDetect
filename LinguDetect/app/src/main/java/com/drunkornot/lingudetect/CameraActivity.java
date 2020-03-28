@@ -390,8 +390,7 @@ public abstract class CameraActivity extends AppCompatActivity
       camera2Fragment.setCamera(cameraId);
       fragment = camera2Fragment;
     } else {
-      fragment =
-          new LegacyCameraConnectionFragment(this, getLayoutId(), getDesiredPreviewFrameSize());
+      throw new IllegalStateException(getString(R.string.tfe_od_camera_error));
     }
 
     getFragmentManager().beginTransaction().replace(R.id.container, fragment).commit();
