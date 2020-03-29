@@ -16,6 +16,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        InitApp();
         InitView();
 
         btnGoToCameraActivity.setOnClickListener(new View.OnClickListener() {
@@ -29,5 +30,8 @@ public class MainActivity extends AppCompatActivity {
 
     private void InitView() {
         btnGoToCameraActivity = findViewById(R.id.goToCameraActivity);
+    }
+
+    private void InitApp() {
     }
 }

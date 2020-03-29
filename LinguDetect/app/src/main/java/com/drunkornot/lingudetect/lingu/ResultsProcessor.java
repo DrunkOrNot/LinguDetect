@@ -1,13 +1,14 @@
 package com.drunkornot.lingudetect.lingu;
 
 import com.drunkornot.lingudetect.tflite.Classifier;
+import com.google.android.gms.tasks.Task;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ResultsProcessor {
     SpeakerWrapper speaker;
-    // TODO
+    // TODO This file is a test mess now; not actual implementation
     // Translator translator;
     // UserData userData;
     // List<Results> results
@@ -22,8 +23,10 @@ public class ResultsProcessor {
     // void CombineWithPrevious();
 
     private List<IDisplayResultsListener> listeners = new ArrayList<IDisplayResultsListener>();
+    private Translator translator;
 
     public ResultsProcessor() {
+        translator = new Translator();
 
     }
 
@@ -31,15 +34,26 @@ public class ResultsProcessor {
         listeners.add(listener);
     }
 
-    void PromoteResult(Result result) {
-        //TODO actual implementation; this is quick test
-        for(IDisplayResultsListener listener : listeners) {
-            listener.onDisplayResult(result);
+    void PromoteResult(Classifier.Recognition result) {
+        Task<String> task = translator.Translate(result.getTitle());
+        while(!task.isComplete()) {
+            // TODO I need to do it more civilized way
         }
+        String resStr = task.getResult();
+        Result res = new Result();
+        res.keyName = resStr;
+        //TODO not actual implementation; this is quick test
+        for(IDisplayResultsListener listener : listeners) {
+            listener.onDisplayResult(res);
+        }
+        //speaker.TrySpeak();
+
     }
     public void ProcessResults(List<Classifier.Recognition> results, float minConfidence) {
-        PromoteResult(new Result());
         // Decide if any of the results should be promoted
+        // And promote the choosen one
+        PromoteResult(results.get(1));
+
 
 //        for (final Classifier.Recognition result : results) {
 //            if (result.getConfidence() >= minConfidence) {

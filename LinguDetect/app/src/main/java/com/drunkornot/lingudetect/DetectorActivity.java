@@ -26,6 +26,7 @@ import android.graphics.Paint.Style;
 import android.graphics.RectF;
 import android.graphics.Typeface;
 import android.media.ImageReader.OnImageAvailableListener;
+import android.os.Bundle;
 import android.os.SystemClock;
 import android.util.Size;
 import android.util.TypedValue;
@@ -44,6 +45,7 @@ import com.drunkornot.lingudetect.lingu.ResultsProcessor;
 import com.drunkornot.lingudetect.tflite.Classifier;
 import com.drunkornot.lingudetect.tflite.TFLiteObjectDetectionAPIModel;
 import com.drunkornot.lingudetect.tracking.MultiBoxTracker;
+import com.google.firebase.FirebaseApp;
 
 /**
  * An activity that uses a TensorFlowMultiBoxDetector and ObjectTracker to detect and then track
@@ -85,6 +87,11 @@ public class DetectorActivity extends CameraActivity implements OnImageAvailable
 
   private BorderedText borderedText;
 
+  @Override
+  protected void onCreate(final Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    FirebaseApp.initializeApp(this);
+  }
   @Override
   public void onPreviewSizeChosen(final Size size, final int rotation) {
     final float textSizePx =

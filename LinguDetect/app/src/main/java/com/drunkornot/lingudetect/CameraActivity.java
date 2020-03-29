@@ -52,6 +52,7 @@ import com.drunkornot.lingudetect.env.Logger;
 import com.drunkornot.lingudetect.lingu.IDisplayResultsListener;
 import com.drunkornot.lingudetect.lingu.Result;
 import com.drunkornot.lingudetect.lingu.ResultsProcessor;
+import com.google.firebase.FirebaseApp;
 
 public abstract class CameraActivity extends AppCompatActivity
     implements OnImageAvailableListener,
@@ -302,11 +303,11 @@ public abstract class CameraActivity extends AppCompatActivity
   @Override
   public void onDisplayResult(Result result) {
     // TODO Implementation
-    // below is test if can update UI
+    // below is test if can update UI TODO delete
     runOnUiThread(new Runnable() {
       @Override
       public void run() {
-        btnChangeCombineResults.setText("success");
+        btnChangeCombineResults.setText(result.keyName);
       }
     });
 

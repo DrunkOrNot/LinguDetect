@@ -3,11 +3,11 @@ package com.drunkornot.lingudetect.lingu;
 import java.util.Locale;
 
 public class Result {
-    private String keyName;
-    private String nativeName;
-    private String translatedName;
-    private Locale nativeLang;
-    private Locale translateLang;
+    public String keyName;
+    public String nativeName;
+    public String translatedName;
+    public Locale nativeLang;
+    public Locale translateLang;
 
     //TODO empty arg constructor for tests - delete later
     public Result() {
