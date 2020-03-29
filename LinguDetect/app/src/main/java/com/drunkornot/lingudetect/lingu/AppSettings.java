@@ -1,9 +1,6 @@
 package com.drunkornot.lingudetect.lingu;
 
 import com.google.firebase.ml.naturallanguage.translate.FirebaseTranslateLanguage;
-import com.google.firebase.ml.naturallanguage.translate.FirebaseTranslateRemoteModel;
-import com.google.firebase.ml.naturallanguage.translate.FirebaseTranslator;
-import com.google.firebase.ml.naturallanguage.translate.FirebaseTranslatorOptions;
 
 import java.util.ArrayList;
 import java.util.Locale;
@@ -15,6 +12,7 @@ public class AppSettings {
 
     private AppSettings() {
         InitializeLanguages();
+        userData = new UserData();
     }
 
     static private AppSettings instance;
@@ -25,9 +23,7 @@ public class AppSettings {
         return instance;
     }
 
-    //
-    // Language region
-    //
+    //region Languages
 
     private TreeMap<String, String> languageCodeToName;
 
@@ -63,4 +59,22 @@ public class AppSettings {
     public String GetLanguageNameForCode(String code) {
         return Locale.forLanguageTag(code).getDisplayName();
     }
+
+    public Boolean IsValidBCP47Code(String code) {
+        for(Map.Entry<String, String> entry : languageCodeToName.entrySet()) {
+            if(entry.getKey().equals(code))
+                return true;
+        }
+        return false;
+    }
+
+    //endregion
+
+    //region UserData
+    private UserData userData;
+
+    public UserData GetCurrentUser() {
+        return userData;
+    }
+    //endregion
 }

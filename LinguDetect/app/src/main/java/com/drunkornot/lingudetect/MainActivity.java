@@ -10,8 +10,6 @@ import android.widget.Button;
 
 import com.drunkornot.lingudetect.lingu.AppSettings;
 
-import java.util.ArrayList;
-
 public class MainActivity extends AppCompatActivity {
 
     Button btnGoToCameraActivity;
@@ -22,6 +20,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         InitApp();
         InitView();
+
+        AppSettings.Instance().GetCurrentUser().SetUsersNativeLanguage("pl");
 
         btnGoToCameraActivity.setOnClickListener(new View.OnClickListener() {
             @SuppressLint("SetTextI18n")
