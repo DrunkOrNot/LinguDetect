@@ -6,13 +6,17 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
-
+import android.widget.Spinner;
 import com.drunkornot.lingudetect.lingu.AppSettings;
+
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
     Button btnGoToCameraActivity;
+    Spinner spLang;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,6 +26,11 @@ public class MainActivity extends AppCompatActivity {
         InitView();
 
         AppSettings.Instance().GetCurrentUser().SetUsersNativeLanguage("pl");
+
+        ArrayList<String> langs = AppSettings.Instance().GetAvailableLanguageNames();
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item, langs);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spLang.setAdapter(adapter);
 
         btnGoToCameraActivity.setOnClickListener(new View.OnClickListener() {
             @SuppressLint("SetTextI18n")
@@ -34,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void InitView() {
         btnGoToCameraActivity = findViewById(R.id.goToCameraActivity);
+        spLang = findViewById(R.id.spLang);
     }
 
     private void InitApp() {

@@ -2,4 +2,6 @@
     <string name="tfe_od_app_name" translation_description="Object Detection demo app [CHAR_LIMIT=40]">TFL Detect</string>
     <string name="app_name" translation_description="Object Detection demo app [CHAR_LIMIT=40]">LinguDetect</string>
     <string name="tfe_od_camera_error" translation_description="Error regarding camera support[CHAR_LIMIT=40]">This device doesn\'t support Camera2 API.</string>
+    <string name="next">Next</string>
+    <string name="welcome_to_lingu_detect_and_learn_languages_through_object_detection">Welcome to Lingu Detect and learn languages through object detection</string>
 </resources>
