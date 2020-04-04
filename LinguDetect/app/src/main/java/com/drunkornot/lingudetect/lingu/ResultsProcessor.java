@@ -25,13 +25,19 @@ public class ResultsProcessor {
     private List<IDisplayResultsListener> listeners = new ArrayList<IDisplayResultsListener>();
     private Translator translator;
 
+    private Boolean combineResults;
+
     public ResultsProcessor() {
         translator = new Translator();
-
+        combineResults = false;
     }
 
     public void AddListener(IDisplayResultsListener listener) {
         listeners.add(listener);
+    }
+
+    public void EnableCombined(Boolean enable) {
+        combineResults = enable;
     }
 
     void PromoteResult(Classifier.Recognition result) {
@@ -49,6 +55,7 @@ public class ResultsProcessor {
         //speaker.TrySpeak();
 
     }
+
     public void ProcessResults(List<Classifier.Recognition> results, float minConfidence) {
         // Decide if any of the results should be promoted
         // And promote the choosen one

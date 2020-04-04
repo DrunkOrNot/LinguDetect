@@ -96,19 +96,22 @@ public abstract class CameraActivity extends AppCompatActivity
       requestPermission();
     }
 
+    InitView();
     processor = new ResultsProcessor();
     processor.AddListener(this);
 
-    btnChangeCombineResults = findViewById(R.id.btnCombine);
     btnChangeCombineResults.setOnClickListener(new View.OnClickListener() {
       @SuppressLint("SetTextI18n")
       @Override
       public void onClick(View v) {
-        //TODO change processing mode to displaying combined results
-        // processor.EnableCombine(true);
+        processor.EnableCombined(true);
       }
     });
 
+  }
+
+  private void InitView() {
+    btnChangeCombineResults = findViewById(R.id.btnCombine);
   }
 
   protected int[] getRgbBytes() {
