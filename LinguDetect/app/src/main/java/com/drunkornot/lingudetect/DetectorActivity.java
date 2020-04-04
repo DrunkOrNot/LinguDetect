@@ -216,8 +216,13 @@ public class DetectorActivity extends CameraActivity implements OnImageAvailable
                 trackingOverlay.postInvalidate();
 
                 computingDetection = false;
-              }
-            });
+
+            tracker.trackResults(mappedRecognitions, currTimestamp);
+            trackingOverlay.postInvalidate();
+
+            computingDetection = false;
+            }
+        });
   }
 
 
