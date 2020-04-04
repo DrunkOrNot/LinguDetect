@@ -44,15 +44,13 @@
                 android:id="@+id/txtCombined"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="TextView"
-                tools:text="TextView" />
+                android:text="TextView" />
 
             <TextView
                 android:id="@+id/txtLearningLang"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="TextView"
-                tools:text="TextView" />
+                android:text="TextView" />
 
             <TextView
                 android:id="@+id/txtNativeLang"

@@ -44,6 +44,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 import java.nio.ByteBuffer;
 
@@ -80,6 +81,9 @@ public abstract class CameraActivity extends AppCompatActivity
   private Runnable imageConverter;
 
   private Button btnChangeCombineResults;
+  private TextView txtLearningLang;
+  private TextView txtNativeLang;
+  private TextView txtCombined;
   private LinearLayout gestureLayout;
 
   @Override
@@ -112,6 +116,9 @@ public abstract class CameraActivity extends AppCompatActivity
 
   private void InitView() {
     btnChangeCombineResults = findViewById(R.id.btnCombine);
+    txtLearningLang = findViewById(R.id.txtLearningLang);
+    txtNativeLang = findViewById(R.id.txtNativeLang);
+    txtCombined = findViewById(R.id.txtCombined);
   }
 
   protected int[] getRgbBytes() {
@@ -305,12 +312,11 @@ public abstract class CameraActivity extends AppCompatActivity
 
   @Override
   public void onDisplayResult(Result result) {
-    // TODO Implementation
-    // below is test if can update UI TODO delete
     runOnUiThread(new Runnable() {
       @Override
       public void run() {
-        btnChangeCombineResults.setText(result.keyName);
+        txtLearningLang.setText(result.GetTranslatedText());
+        txtNativeLang.setText(result.GetNativeText());
       }
     });
 

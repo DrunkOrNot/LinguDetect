@@ -3,21 +3,37 @@ package com.drunkornot.lingudetect.lingu;
 import java.util.Locale;
 
 public class Result {
-    public String keyName;
-    public String nativeName;
-    public String translatedName;
-    public Locale nativeLang;
-    public Locale translateLang;
+    private String keyName;
+    public String nativeText;
+    public String translatedText;
+    private String nativeLang;
+    private String translatedLang;
 
-    //TODO empty arg constructor for tests - delete later
-    public Result() {
-
-    }
-    public Result(String keyName, String nativeName, String translatedName, Locale nativeLang, Locale translateLang) {
+    public Result(String keyName, String nativeLang, String translatedLang) {
         this.keyName = keyName;
-        this.nativeName = nativeName;
-        this.translatedName = translatedName;
         this.nativeLang = nativeLang;
-        this.translateLang = translateLang;
+        this.translatedLang = translatedLang;
+        nativeText = new String();
+        translatedText = new String();
+    }
+
+    public String GetKeyName() {
+        return keyName;
+    }
+
+    public String GetNativeLang() {
+        return nativeLang;
+    }
+
+    public String GetTranslatedLang() {
+        return translatedLang;
+    }
+
+    public String GetNativeText() {
+        return nativeText;
+    }
+
+    public String GetTranslatedText() {
+        return translatedText;
     }
 }

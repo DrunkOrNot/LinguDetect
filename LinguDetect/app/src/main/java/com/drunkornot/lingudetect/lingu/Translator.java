@@ -13,15 +13,21 @@ import com.google.firebase.ml.naturallanguage.FirebaseNaturalLanguage;
 
 public class Translator {
 
+    String sourceLang = "en";
+
     public Translator() {
 
     }
 
-    public Task<String> Translate(String text) {
+    public Task<String> Translate(String text, String targetLanguage) {
+        return Translate(text, targetLanguage, sourceLang);
+    }
+
+    public Task<String> Translate(String text, String targetLanguage, String sourceLanguage) {
         int sourceLangCode =
-                FirebaseTranslateLanguage.languageForLanguageCode("en");
+                FirebaseTranslateLanguage.languageForLanguageCode(sourceLanguage);
         int targetLangCode =
-                FirebaseTranslateLanguage.languageForLanguageCode("pl");
+                FirebaseTranslateLanguage.languageForLanguageCode(targetLanguage);
         FirebaseTranslatorOptions options = new FirebaseTranslatorOptions.Builder()
                 .setSourceLanguage(sourceLangCode)
                 .setTargetLanguage(targetLangCode)

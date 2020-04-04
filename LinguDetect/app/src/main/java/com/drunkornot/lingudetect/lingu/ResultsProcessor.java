@@ -40,17 +40,31 @@ public class ResultsProcessor {
         combineResults = enable;
     }
 
-    void PromoteResult(Classifier.Recognition result) {
-        Task<String> task = translator.Translate(result.getTitle());
-        while(!task.isComplete()) {
+    void PromoteResult(Classifier.Recognition classifierResult) {
+
+        //Create Result object
+        Result result = new Result(classifierResult.getTitle(),
+                AppSettings.Instance().GetCurrentUser().GetUsersNativeLanguage(),
+                AppSettings.Instance().GetCurrentUser().GetUsersLearningLanguage());
+
+        // Fill Learning Language Info
+        Task<String> translateToLearningTask = translator.Translate(result.GetKeyName(), result.GetTranslatedLang());
+        while(!translateToLearningTask.isComplete()) {
             // TODO I need to do it more civilized way
         }
-        String resStr = task.getResult();
-        Result res = new Result();
-        res.keyName = resStr;
-        //TODO not actual implementation; this is quick test
+        String translatedText = translateToLearningTask.getResult();
+        result.translatedText = translatedText;
+
+        // Fill Native Language Info
+        Task<String> translateToNativeTask = translator.Translate(result.GetKeyName(), result.GetNativeLang());
+        while(!translateToNativeTask.isComplete()) {
+            // TODO I need to do it more civilized way
+        }
+        String nativeText = translateToNativeTask.getResult();
+        result.nativeText = nativeText;
+
         for(IDisplayResultsListener listener : listeners) {
-            listener.onDisplayResult(res);
+            listener.onDisplayResult(result);
         }
         //speaker.TrySpeak();
 
