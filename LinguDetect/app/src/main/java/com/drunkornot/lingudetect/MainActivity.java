@@ -43,7 +43,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 MainActivity.this.startActivity(new Intent(MainActivity.this, DetectorActivity.class));
-                AppSettings.Instance().GetCurrentUser().SetUsersLearningLanguage("pl");
             }
         });
     }
