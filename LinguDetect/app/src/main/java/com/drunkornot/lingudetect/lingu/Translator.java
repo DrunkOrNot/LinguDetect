@@ -2,7 +2,6 @@ package com.drunkornot.lingudetect.lingu;
 
 import androidx.annotation.NonNull;
 
-import com.drunkornot.lingudetect.R;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;
@@ -13,14 +12,14 @@ import com.google.firebase.ml.naturallanguage.FirebaseNaturalLanguage;
 
 public class Translator {
 
-    String sourceLang = "en";
+    String defaultSourceLang = "en";
 
     public Translator() {
 
     }
 
     public Task<String> Translate(String text, String targetLanguage) {
-        return Translate(text, targetLanguage, sourceLang);
+        return Translate(text, targetLanguage, defaultSourceLang);
     }
 
     public Task<String> Translate(String text, String targetLanguage, String sourceLanguage) {

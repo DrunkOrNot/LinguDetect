@@ -315,7 +315,7 @@ public abstract class CameraActivity extends AppCompatActivity
     runOnUiThread(new Runnable() {
       @Override
       public void run() {
-        txtLearningLang.setText(result.GetTranslatedText());
+        txtLearningLang.setText(result.GetLearningText());
         txtNativeLang.setText(result.GetNativeText());
       }
     });

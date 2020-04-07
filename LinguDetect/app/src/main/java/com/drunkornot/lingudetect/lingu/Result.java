@@ -1,20 +1,18 @@
 package com.drunkornot.lingudetect.lingu;
 
-import java.util.Locale;
-
 public class Result {
     private String keyName;
     public String nativeText;
-    public String translatedText;
+    public String learningText;
     private String nativeLang;
-    private String translatedLang;
+    private String learningLang;
 
-    public Result(String keyName, String nativeLang, String translatedLang) {
+    public Result(String keyName, String nativeLang, String learningLang) {
         this.keyName = keyName;
         this.nativeLang = nativeLang;
-        this.translatedLang = translatedLang;
+        this.learningLang = learningLang;
         nativeText = new String();
-        translatedText = new String();
+        learningText = new String();
     }
 
     public String GetKeyName() {
@@ -25,15 +23,16 @@ public class Result {
         return nativeLang;
     }
 
-    public String GetTranslatedLang() {
-        return translatedLang;
+    public String GetLearningLang() {
+        return learningLang;
     }
 
     public String GetNativeText() {
         return nativeText;
     }
 
-    public String GetTranslatedText() {
-        return translatedText;
+    public String GetLearningText() {
+        return learningText;
     }
 }
+

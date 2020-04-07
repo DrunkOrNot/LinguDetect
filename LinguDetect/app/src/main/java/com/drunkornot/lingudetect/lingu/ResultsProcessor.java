@@ -48,12 +48,12 @@ public class ResultsProcessor {
                 AppSettings.Instance().GetCurrentUser().GetUsersLearningLanguage());
 
         // Fill Learning Language Info
-        Task<String> translateToLearningTask = translator.Translate(result.GetKeyName(), result.GetTranslatedLang());
+        Task<String> translateToLearningTask = translator.Translate(result.GetKeyName(), result.GetLearningLang());
         while(!translateToLearningTask.isComplete()) {
             // TODO I need to do it more civilized way
         }
-        String translatedText = translateToLearningTask.getResult();
-        result.translatedText = translatedText;
+        String learningText = translateToLearningTask.getResult();
+        result.learningText = learningText;
 
         // Fill Native Language Info
         Task<String> translateToNativeTask = translator.Translate(result.GetKeyName(), result.GetNativeLang());
