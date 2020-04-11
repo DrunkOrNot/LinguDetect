@@ -61,7 +61,6 @@ public class DetectorActivity extends CameraActivity implements OnImageAvailable
   private static final String TF_OD_API_LABELS_FILE = "file:///android_asset/labelmap.txt";
   private static final DetectorMode MODE = DetectorMode.TF_OD_API;
   // Minimum detection confidence to track a detection.
-  private static final float MINIMUM_CONFIDENCE_TF_OD_API = 0.7f;
   private static final boolean MAINTAIN_ASPECT = false;
   private static final Size DESIRED_PREVIEW_SIZE = new Size(640, 480);
   private static final boolean SAVE_PREVIEW_BITMAP = false;
@@ -198,12 +197,12 @@ public class DetectorActivity extends CameraActivity implements OnImageAvailable
                 paint.setStyle(Style.STROKE);
                 paint.setStrokeWidth(2.0f);
 
-                float minimumConfidence = MINIMUM_CONFIDENCE_TF_OD_API;
+                float minimumConfidence = processor.getMinConfidence();
 
                 final List<Classifier.Recognition> mappedRecognitions =
                         new LinkedList<Classifier.Recognition>();
+                processor.ProcessResults(results);
                 for (final Classifier.Recognition result : results) {
-                  processor.ProcessResults(results, minimumConfidence);
                   final RectF location = result.getLocation();
                   if (location != null && result.getConfidence() >= minimumConfidence) {
                     canvas.drawRect(location, paint);

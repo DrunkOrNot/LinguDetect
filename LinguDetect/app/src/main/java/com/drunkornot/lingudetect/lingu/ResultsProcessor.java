@@ -1,10 +1,13 @@
 package com.drunkornot.lingudetect.lingu;
 
+import android.graphics.RectF;
+
 import com.drunkornot.lingudetect.tflite.Classifier;
 import com.google.android.gms.tasks.Task;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class ResultsProcessor {
     SpeakerWrapper speaker;
@@ -24,8 +27,8 @@ public class ResultsProcessor {
 
     private List<IDisplayResultsListener> listeners = new ArrayList<IDisplayResultsListener>();
     private Translator translator;
-
     private Boolean combineResults;
+    private float minConfidence = 0.7f;
 
     public ResultsProcessor() {
         translator = new Translator();
@@ -49,7 +52,7 @@ public class ResultsProcessor {
 
         // Fill Learning Language Info
         Task<String> translateToLearningTask = translator.Translate(result.GetKeyName(), result.GetLearningLang());
-        while(!translateToLearningTask.isComplete()) {
+        while (!translateToLearningTask.isComplete()) {
             // TODO I need to do it more civilized way
         }
         String learningText = translateToLearningTask.getResult();
@@ -57,30 +60,48 @@ public class ResultsProcessor {
 
         // Fill Native Language Info
         Task<String> translateToNativeTask = translator.Translate(result.GetKeyName(), result.GetNativeLang());
-        while(!translateToNativeTask.isComplete()) {
+        while (!translateToNativeTask.isComplete()) {
             // TODO I need to do it more civilized way
         }
         String nativeText = translateToNativeTask.getResult();
         result.nativeText = nativeText;
 
-        for(IDisplayResultsListener listener : listeners) {
+        for (IDisplayResultsListener listener : listeners) {
             listener.onDisplayResult(result);
         }
         //speaker.TrySpeak();
 
     }
 
-    public void ProcessResults(List<Classifier.Recognition> results, float minConfidence) {
-        // Decide if any of the results should be promoted
-        // And promote the choosen one
-        PromoteResult(results.get(1));
+    public void ProcessResults(List<Classifier.Recognition> results) {
+        List<Classifier.Recognition> recognized = results.stream().filter(res -> res.getConfidence() > minConfidence).collect(Collectors.toList());
 
+        if (recognized.size() == 0) {
+            return;
+        } else if (recognized.size() == 1) {
+            PromoteResult(recognized.get(0));
+        } else {
+            float biggestArea = 0;
+            Classifier.Recognition bestResult = new Classifier.Recognition("", "", 0.0f, new RectF());
+
+            for (Classifier.Recognition result : recognized) {
+                float area = result.getLocation().width() * result.getLocation().height();
+                if (area > biggestArea) {
+                    biggestArea = area;
+                    bestResult = result;
+                }
+            }
+            PromoteResult(bestResult);
+        }
+    }
+
+    public float getMinConfidence() {
+        return minConfidence;
+    }
+}
 
 //        for (final Classifier.Recognition result : results) {
 //            if (result.getConfidence() >= minConfidence) {
 //                if(!speaker.isSpeaking())
 //                    speaker.speak(result.getTitle(), TextToSpeech.QUEUE_FLUSH, null, "troll");
 //        }
-    }
-
-    }
