@@ -29,6 +29,8 @@ public class ResultsProcessor {
     private Translator translator;
     private Boolean combineResults;
     private float minConfidence = 0.7f;
+    private long lastFired = 0;
+    private long resultDuration = 5000;
 
     public ResultsProcessor() {
         translator = new Translator();
@@ -44,6 +46,11 @@ public class ResultsProcessor {
     }
 
     void PromoteResult(Classifier.Recognition classifierResult) {
+
+        if (!CanPromoteResult()) {
+            return;
+        }
+        lastFired = System.currentTimeMillis();
 
         //Create Result object
         Result result = new Result(classifierResult.getTitle(),
@@ -63,8 +70,10 @@ public class ResultsProcessor {
         while (!translateToNativeTask.isComplete()) {
             // TODO I need to do it more civilized way
         }
+
         String nativeText = translateToNativeTask.getResult();
         result.nativeText = nativeText;
+
 
         for (IDisplayResultsListener listener : listeners) {
             listener.onDisplayResult(result);
@@ -93,6 +102,15 @@ public class ResultsProcessor {
             }
             PromoteResult(bestResult);
         }
+    }
+
+    private boolean CanPromoteResult() {
+        long currentTime = System.currentTimeMillis();
+
+        if ((currentTime - lastFired) <= resultDuration) {
+            return false;
+        }
+        return true;
     }
 
     public float getMinConfidence() {

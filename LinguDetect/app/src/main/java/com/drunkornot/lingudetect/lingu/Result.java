@@ -1,9 +1,9 @@
 package com.drunkornot.lingudetect.lingu;
 
 public class Result {
-    private String keyName;
     public String nativeText;
     public String learningText;
+    private String keyName;
     private String nativeLang;
     private String learningLang;
 
