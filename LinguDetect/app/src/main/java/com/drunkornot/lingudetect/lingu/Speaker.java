@@ -5,15 +5,11 @@ import android.speech.tts.TextToSpeech;
 
 import java.util.Locale;
 
-public class SpeakerWrapper {
+public class Speaker {
 
     private TextToSpeech instance;
-    private boolean initialized = false;
 
-    public SpeakerWrapper() {
-    }
-
-    public void Initialize(Context context) {
+    public Speaker(Context context) {
         Locale locale = new Locale.Builder().setLanguage(AppSettings.Instance().GetCurrentUser().GetUsersLearningLanguage()).build();
 
         instance = new TextToSpeech(context, new TextToSpeech.OnInitListener() {
@@ -24,14 +20,8 @@ public class SpeakerWrapper {
                 }
             }
         });
-        initialized = true;
-    }
-
-    public boolean IsInitialized() {
-        return initialized;
     }
     // TODO
     // public TrySpeak();
-    // public SetLocale();
 
 }

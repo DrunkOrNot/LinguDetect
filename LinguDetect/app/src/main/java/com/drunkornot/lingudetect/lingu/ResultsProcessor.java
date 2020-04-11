@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class ResultsProcessor {
-    SpeakerWrapper speaker;
+    Speaker speaker;
     // TODO This file is a test mess now; not actual implementation
     // Translator translator;
     // UserData userData;
@@ -25,7 +25,7 @@ public class ResultsProcessor {
     //
     // void CombineWithPrevious();
 
-    private List<IDisplayResultsListener> listeners = new ArrayList<IDisplayResultsListener>();
+    private List<IPromoteResultsListener> listeners = new ArrayList<IPromoteResultsListener>();
     private Translator translator;
     private Boolean combineResults;
     private float minConfidence = 0.7f;
@@ -37,7 +37,7 @@ public class ResultsProcessor {
         combineResults = false;
     }
 
-    public void AddListener(IDisplayResultsListener listener) {
+    public void AddListener(IPromoteResultsListener listener) {
         listeners.add(listener);
     }
 
@@ -75,8 +75,8 @@ public class ResultsProcessor {
         result.nativeText = nativeText;
 
 
-        for (IDisplayResultsListener listener : listeners) {
-            listener.onDisplayResult(result);
+        for (IPromoteResultsListener listener : listeners) {
+            listener.onPromoteResult(result);
         }
         //speaker.TrySpeak();
 

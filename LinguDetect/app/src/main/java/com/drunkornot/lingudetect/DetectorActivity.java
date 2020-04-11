@@ -41,7 +41,7 @@ import com.drunkornot.lingudetect.customview.OverlayView.DrawCallback;
 import com.drunkornot.lingudetect.env.BorderedText;
 import com.drunkornot.lingudetect.env.ImageUtils;
 import com.drunkornot.lingudetect.env.Logger;
-import com.drunkornot.lingudetect.lingu.ResultsProcessor;
+import com.drunkornot.lingudetect.lingu.Speaker;
 import com.drunkornot.lingudetect.tflite.Classifier;
 import com.drunkornot.lingudetect.tflite.TFLiteObjectDetectionAPIModel;
 import com.drunkornot.lingudetect.tracking.MultiBoxTracker;
@@ -90,6 +90,7 @@ public class DetectorActivity extends CameraActivity implements OnImageAvailable
   protected void onCreate(final Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     FirebaseApp.initializeApp(this);
+    speaker = new Speaker(this);
   }
   @Override
   public void onPreviewSizeChosen(final Size size, final int rotation) {

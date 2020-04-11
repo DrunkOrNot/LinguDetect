@@ -50,17 +50,17 @@ import java.nio.ByteBuffer;
 
 import com.drunkornot.lingudetect.env.ImageUtils;
 import com.drunkornot.lingudetect.env.Logger;
-import com.drunkornot.lingudetect.lingu.IDisplayResultsListener;
+import com.drunkornot.lingudetect.lingu.IPromoteResultsListener;
 import com.drunkornot.lingudetect.lingu.Result;
 import com.drunkornot.lingudetect.lingu.ResultsProcessor;
-import com.google.firebase.FirebaseApp;
+import com.drunkornot.lingudetect.lingu.Speaker;
 
 public abstract class CameraActivity extends AppCompatActivity
     implements OnImageAvailableListener,
         Camera.PreviewCallback,
         CompoundButton.OnCheckedChangeListener,
         View.OnClickListener,
-        IDisplayResultsListener {
+        IPromoteResultsListener {
   private static final Logger LOGGER = new Logger();
 
   private static final int PERMISSIONS_REQUEST = 1;
@@ -69,6 +69,7 @@ public abstract class CameraActivity extends AppCompatActivity
   protected int previewWidth = 0;
   protected int previewHeight = 0;
   protected ResultsProcessor processor;
+  protected Speaker speaker;
   private boolean debug = false;
   private Handler handler;
   private HandlerThread handlerThread;
@@ -311,7 +312,7 @@ public abstract class CameraActivity extends AppCompatActivity
   }
 
   @Override
-  public void onDisplayResult(Result result) {
+  public void onPromoteResult(Result result) {
     runOnUiThread(new Runnable() {
       @Override
       public void run() {
@@ -323,7 +324,7 @@ public abstract class CameraActivity extends AppCompatActivity
   }
 
   @Override
-  public void onDisplayCombinedResult(Result summand1, Result summand2, Result combinedResult) {
+  public void onPromoteCombinedResult(Result summand1, Result summand2, Result combinedResult) {
     //TODO Implementation
   }
 
