@@ -13,6 +13,7 @@ public class AppSettings {
     private AppSettings() {
         InitializeLanguages();
         userData = new UserData();
+        history = new History();
     }
 
     static private AppSettings instance;
@@ -67,7 +68,6 @@ public class AppSettings {
         }
         return false;
     }
-
     //endregion
 
     //region UserData
@@ -75,6 +75,14 @@ public class AppSettings {
 
     public UserData GetCurrentUser() {
         return userData;
+    }
+    //endregion
+
+    //region History
+    private History history;
+
+    public History GetHistory() {
+        return history;
     }
     //endregion
 }

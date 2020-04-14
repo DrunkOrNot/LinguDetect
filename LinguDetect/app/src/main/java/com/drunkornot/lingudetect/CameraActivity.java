@@ -50,6 +50,7 @@ import java.nio.ByteBuffer;
 
 import com.drunkornot.lingudetect.env.ImageUtils;
 import com.drunkornot.lingudetect.env.Logger;
+import com.drunkornot.lingudetect.lingu.AppSettings;
 import com.drunkornot.lingudetect.lingu.IPromoteResultsListener;
 import com.drunkornot.lingudetect.lingu.Result;
 import com.drunkornot.lingudetect.lingu.ResultsProcessor;
@@ -109,7 +110,10 @@ public abstract class CameraActivity extends AppCompatActivity
       @SuppressLint("SetTextI18n")
       @Override
       public void onClick(View v) {
-        processor.EnableCombined(true);
+       if (AppSettings.Instance().GetHistory().HasLastResult()) {
+         txtCombined.setText(AppSettings.Instance().GetHistory().GetLastResult().GetLearningText() + " + ... = ???");
+         processor.EnableCombined(true);
+       }
       }
     });
 

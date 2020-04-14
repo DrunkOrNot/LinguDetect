@@ -63,7 +63,7 @@ public class ResultsProcessor {
         for (IPromoteResultsListener listener : listeners) {
             listener.onPromoteResult(result);
         }
-
+        AppSettings.Instance().GetHistory().Add(result);
     }
 
     public void ProcessResults(List<Classifier.Recognition> results) {
