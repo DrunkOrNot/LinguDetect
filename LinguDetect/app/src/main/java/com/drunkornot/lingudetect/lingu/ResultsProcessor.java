@@ -57,28 +57,12 @@ public class ResultsProcessor {
                 AppSettings.Instance().GetCurrentUser().GetUsersNativeLanguage(),
                 AppSettings.Instance().GetCurrentUser().GetUsersLearningLanguage());
 
-        // Fill Learning Language Info
-        Task<String> translateToLearningTask = translator.Translate(result.GetKeyName(), result.GetLearningLang());
-        while (!translateToLearningTask.isComplete()) {
-            // TODO I need to do it more civilized way
-        }
-        String learningText = translateToLearningTask.getResult();
-        result.learningText = learningText;
-
-        // Fill Native Language Info
-        Task<String> translateToNativeTask = translator.Translate(result.GetKeyName(), result.GetNativeLang());
-        while (!translateToNativeTask.isComplete()) {
-            // TODO I need to do it more civilized way
-        }
-
-        String nativeText = translateToNativeTask.getResult();
-        result.nativeText = nativeText;
-
+        result.learningText = translator.Translate(result.GetKeyName(), result.GetLearningLang());
+        result.nativeText = translator.Translate(result.GetKeyName(), result.GetNativeLang());
 
         for (IPromoteResultsListener listener : listeners) {
             listener.onPromoteResult(result);
         }
-        //speaker.TrySpeak();
 
     }
 

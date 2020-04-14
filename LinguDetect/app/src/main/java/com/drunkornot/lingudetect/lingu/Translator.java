@@ -18,11 +18,24 @@ public class Translator {
 
     }
 
-    public Task<String> Translate(String text, String targetLanguage) {
+    public String Translate(String text, String targetLanguage) {
         return Translate(text, targetLanguage, defaultSourceLang);
     }
 
-    public Task<String> Translate(String text, String targetLanguage, String sourceLanguage) {
+    public String Translate(String text, String targetLanguage, String sourceLanguage) {
+        Task<String> translateTask = TranslateAsync(text, targetLanguage, sourceLanguage);
+        while (!translateTask.isComplete()) {
+            // TODO I need to do it more civilized way
+        }
+        return translateTask.getResult();
+    }
+
+
+    public Task<String> TranslateAsync(String text, String targetLanguage) {
+        return TranslateAsync(text, targetLanguage, defaultSourceLang);
+    }
+
+    public Task<String> TranslateAsync(String text, String targetLanguage, String sourceLanguage) {
         int sourceLangCode =
                 FirebaseTranslateLanguage.languageForLanguageCode(sourceLanguage);
         int targetLangCode =
