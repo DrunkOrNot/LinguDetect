@@ -3,7 +3,6 @@ package com.drunkornot.lingudetect.lingu;
 import android.graphics.RectF;
 
 import com.drunkornot.lingudetect.tflite.Classifier;
-import com.google.android.gms.tasks.Task;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -60,9 +59,16 @@ public class ResultsProcessor {
         result.learningText = translator.Translate(result.GetKeyName(), result.GetLearningLang());
         result.nativeText = translator.Translate(result.GetKeyName(), result.GetNativeLang());
 
+
         for (IPromoteResultsListener listener : listeners) {
-            listener.onPromoteResult(result);
+            if (combineResults) {
+                listener.onPromoteCombinedResult(result);
+            } else {
+                listener.onPromoteResult(result);
+            }
         }
+        combineResults = false;
+        
         AppSettings.Instance().GetHistory().Add(result);
     }
 
