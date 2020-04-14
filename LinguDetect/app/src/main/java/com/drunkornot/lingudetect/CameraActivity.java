@@ -318,6 +318,7 @@ public abstract class CameraActivity extends AppCompatActivity
       public void run() {
         txtLearningLang.setText(result.GetLearningText());
         txtNativeLang.setText(result.GetNativeText());
+        speaker.TrySpeak(result.GetLearningText());
       }
     });
 

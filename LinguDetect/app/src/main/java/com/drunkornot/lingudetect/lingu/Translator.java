@@ -5,10 +5,10 @@ import androidx.annotation.NonNull;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;
+import com.google.firebase.ml.naturallanguage.FirebaseNaturalLanguage;
 import com.google.firebase.ml.naturallanguage.translate.FirebaseTranslateLanguage;
 import com.google.firebase.ml.naturallanguage.translate.FirebaseTranslator;
 import com.google.firebase.ml.naturallanguage.translate.FirebaseTranslatorOptions;
-import com.google.firebase.ml.naturallanguage.FirebaseNaturalLanguage;
 
 public class Translator {
 
@@ -59,7 +59,8 @@ public class Translator {
                             }
                             return Tasks.forException(e);
                         }
-    }});
+                    }
+                });
 
     }
 }

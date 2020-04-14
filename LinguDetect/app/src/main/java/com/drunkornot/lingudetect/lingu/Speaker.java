@@ -8,6 +8,7 @@ import java.util.Locale;
 public class Speaker {
 
     private TextToSpeech instance;
+    private int queueMode;
 
     public Speaker(Context context) {
         Locale locale = new Locale.Builder().setLanguage(AppSettings.Instance().GetCurrentUser().GetUsersLearningLanguage()).build();
@@ -21,7 +22,10 @@ public class Speaker {
             }
         });
     }
-    // TODO
-    // public TrySpeak();
 
+    public void TrySpeak(String text) {
+        if (!instance.isSpeaking()) {
+            instance.speak(text, queueMode, null, "");
+        }
+    }
 }
