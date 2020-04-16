@@ -117,10 +117,12 @@ public abstract class CameraActivity extends AppCompatActivity
             @SuppressLint("SetTextI18n")
             @Override
             public void onClick(View v) {
+                controlsEditStart();
                 if (AppSettings.Instance().GetHistory().HasLastResult()) {
                     txtCombined.setText(AppSettings.Instance().GetHistory().GetLastResult().GetLearningText() + " + ... = ???");
                     processor.EnableCombined(true);
                 }
+                controlsEditEnd();
             }
         });
 
@@ -331,22 +333,49 @@ public abstract class CameraActivity extends AppCompatActivity
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
+                controlsEditStart();
                 txtLearningLang.setText(result.GetLearningText());
                 txtNativeLang.setText(result.GetNativeText());
                 speaker.TrySpeak(result.GetLearningText());
+                controlsEditEnd();
             }
         });
 
     }
 
     @Override
-    public void onPromoteCombinedResult(Result result) {
+    public void onPromoteCombinedResult(Result summand1, Result summand2, Result result) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+        controlsEditStart();
         StringBuilder text = new StringBuilder();
         text.append(AppSettings.Instance().GetHistory().GetLastResult().GetLearningText());
         text.append(" + ");
-        text.append(result.GetLearningText());
+        text.append(summand1.GetLearningText());
         text.append(" = ");
         txtCombined.setText(text.toString());
+        controlsEditEnd();
+            }
+        });
+    }
+
+    private void controlsEditStart() {
+        clearControls();
+    }
+
+    private void controlsEditEnd() {
+        clearControls();
+    }
+
+    private void clearControls() {
+        txtLearningLang.setText("");
+        txtNativeLang.setText("");
+        txtCombined.setText("");
+    }
+
+    private void clearAfterTime() {
+        clearControls();
     }
 
     private boolean hasPermission() {

@@ -28,8 +28,6 @@ public class ResultsProcessor {
     private Translator translator;
     private Boolean combineResults;
     private float minConfidence = 0.7f;
-    private long lastFired = 0;
-    private long resultDuration = 5000;
 
     public ResultsProcessor() {
         translator = new Translator();
@@ -42,6 +40,17 @@ public class ResultsProcessor {
 
     public void EnableCombined(Boolean enable) {
         combineResults = enable;
+        if(enable) {
+            new Thread() {
+                public void run() {
+                    long timeout = System.currentTimeMillis() + combineTimeout;
+                    while(System.currentTimeMillis() <= timeout && combineResults ) {
+                    }
+                    combineResults = false;
+                }
+            }.start();
+        }
+
     }
 
     void PromoteResult(Classifier.Recognition classifierResult) {
@@ -59,17 +68,36 @@ public class ResultsProcessor {
         result.learningText = translator.Translate(result.GetKeyName(), result.GetLearningLang());
         result.nativeText = translator.Translate(result.GetKeyName(), result.GetNativeLang());
 
+        if(combineResults) {
+            PromoteCombinedResult(result);
+        }
+        else {
+            PromoteResult(result);
 
+        }
+
+        combineResults = false;
+        AppSettings.Instance().GetHistory().Add(result);
+    }
+
+    private void PromoteResult(Result result) {
         for (IPromoteResultsListener listener : listeners) {
-            if (combineResults) {
-                listener.onPromoteCombinedResult(result);
-            } else {
-                listener.onPromoteResult(result);
-            }
+            listener.onPromoteResult(result);
         }
         combineResults = false;
-        
         AppSettings.Instance().GetHistory().Add(result);
+    }
+
+    private void PromoteCombinedResult(Result result) {
+        Result finalResult = Combiner.Combine(AppSettings.Instance().GetHistory().GetLastResult(), result);
+        //TODO translate finalResult
+
+        for (IPromoteResultsListener listener : listeners) {
+                listener.onPromoteCombinedResult(AppSettings.Instance().GetHistory().GetLastResult(), result, finalResult );
+        }
+        combineResults = false;
+        AppSettings.Instance().GetHistory().Add(result);
+        //TODO Combined History
     }
 
     public void ProcessResults(List<Classifier.Recognition> results) {
@@ -95,8 +123,11 @@ public class ResultsProcessor {
     }
 
     private boolean CanPromoteResult() {
-        long currentTime = System.currentTimeMillis();
+        // If it is combined result, time restrictions does not apply
+        if(combineResults)
+            return true;
 
+        long currentTime = System.currentTimeMillis();
         if ((currentTime - lastFired) <= resultDuration) {
             return false;
         }
@@ -106,10 +137,11 @@ public class ResultsProcessor {
     public float getMinConfidence() {
         return minConfidence;
     }
-}
 
-//        for (final Classifier.Recognition result : results) {
-//            if (result.getConfidence() >= minConfidence) {
-//                if(!speaker.isSpeaking())
-//                    speaker.speak(result.getTitle(), TextToSpeech.QUEUE_FLUSH, null, "troll");
-//        }
+    //region Timer
+    private static int combineTimeout = 5000;
+    private long lastFired = 0;
+    private long resultDuration = 5000;
+
+    //endregion
+}
