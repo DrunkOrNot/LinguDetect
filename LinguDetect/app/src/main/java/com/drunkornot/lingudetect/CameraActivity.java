@@ -51,9 +51,11 @@ import com.drunkornot.lingudetect.env.ImageUtils;
 import com.drunkornot.lingudetect.env.Logger;
 import com.drunkornot.lingudetect.lingu.AppSettings;
 import com.drunkornot.lingudetect.lingu.IPromoteResultsListener;
+import com.drunkornot.lingudetect.lingu.ITimerNotificationsListener;
 import com.drunkornot.lingudetect.lingu.Result;
 import com.drunkornot.lingudetect.lingu.ResultsProcessor;
 import com.drunkornot.lingudetect.lingu.Speaker;
+import com.drunkornot.lingudetect.lingu.Timer;
 
 import java.nio.ByteBuffer;
 
@@ -62,7 +64,8 @@ public abstract class CameraActivity extends AppCompatActivity
         Camera.PreviewCallback,
         CompoundButton.OnCheckedChangeListener,
         View.OnClickListener,
-        IPromoteResultsListener {
+        IPromoteResultsListener,
+        ITimerNotificationsListener {
     private static final Logger LOGGER = new Logger();
     private static final int PERMISSIONS_REQUEST = 1;
     private static final String PERMISSION_CAMERA = Manifest.permission.CAMERA;
@@ -70,6 +73,7 @@ public abstract class CameraActivity extends AppCompatActivity
     protected int previewHeight = 0;
     protected ResultsProcessor processor;
     protected Speaker speaker;
+    protected Timer timer;
     private boolean debug = false;
     private Handler handler;
     private HandlerThread handlerThread;
@@ -112,6 +116,9 @@ public abstract class CameraActivity extends AppCompatActivity
         InitView();
         processor = new ResultsProcessor();
         processor.AddListener(this);
+
+        timer = new Timer();
+        timer.AddListener(this);
 
         btnChangeCombineResults.setOnClickListener(new View.OnClickListener() {
             @SuppressLint("SetTextI18n")
@@ -360,12 +367,17 @@ public abstract class CameraActivity extends AppCompatActivity
         });
     }
 
+    @Override
+    public void onCountdownEnded() {
+        clearControls();
+    }
+
     private void controlsEditStart() {
         clearControls();
     }
 
     private void controlsEditEnd() {
-        clearControls();
+        timer.Start();
     }
 
     private void clearControls() {
