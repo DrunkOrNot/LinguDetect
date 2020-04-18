@@ -57,6 +57,7 @@ import com.drunkornot.lingudetect.lingu.ResultsProcessor;
 import com.drunkornot.lingudetect.lingu.Speaker;
 import com.drunkornot.lingudetect.lingu.Timer;
 import com.drunkornot.lingudetect.lingu.Translator;
+import com.google.firebase.FirebaseApp;
 
 import java.nio.ByteBuffer;
 
@@ -76,8 +77,8 @@ public abstract class CameraActivity extends AppCompatActivity
     protected Speaker speaker;
     protected Timer timer;
     protected Translator translator;
-    protected String plusTranslated = new String();
-    protected String equalsTranslated = new String();
+    protected String plusTranslated;
+    protected String equalsTranslated;
     private boolean debug = false;
     private Handler handler;
     private HandlerThread handlerThread;
@@ -116,6 +117,8 @@ public abstract class CameraActivity extends AppCompatActivity
             requestPermission();
         }
 
+        FirebaseApp.initializeApp(this);
+
         InitView();
         processor = new ResultsProcessor();
         processor.AddListener(this);
@@ -125,22 +128,30 @@ public abstract class CameraActivity extends AppCompatActivity
 
         translator = new Translator();
 
-        plusTranslated = translator.Translate("plus", AppSettings.Instance().GetCurrentUser().GetUsersLearningLanguage());
-        equalsTranslated = translator.Translate("equals", AppSettings.Instance().GetCurrentUser().GetUsersLearningLanguage());
+        runInBackground(
+                new Runnable() {
+                    @Override
+                    public void run() {
+                        equalsTranslated = translator.Translate("equals", AppSettings.Instance().GetCurrentUser().GetUsersLearningLanguage());
+                        plusTranslated = translator.Translate("plus", AppSettings.Instance().GetCurrentUser().GetUsersLearningLanguage());
+                    }
+                });
 
-        btnChangeCombineResults.setOnClickListener(new View.OnClickListener() {
-            @SuppressLint("SetTextI18n")
-            @Override
-            public void onClick(View v) {
-                controlsEditStart();
-                if (AppSettings.Instance().GetHistory().HasLastResult()) {
-                    txtLearningLang.setText(AppSettings.Instance().GetHistory().GetLastResult().GetLearningText() + " + ... = ???");
-                    txtNativeLang.setText(AppSettings.Instance().GetHistory().GetLastResult().GetNativeText() + " + ... = ???");
-                    processor.EnableCombined(true);
-                }
-                controlsEditEnd();
-            }
-        });
+                btnChangeCombineResults.setOnClickListener(new View.OnClickListener() {
+                    @SuppressLint("SetTextI18n")
+                    @Override
+                    public void onClick(View v) {
+                        controlsEditStart();
+                        if (AppSettings.Instance().GetHistory().HasLastResult()) {
+                            String learningTextToSet = formatCombinedString(AppSettings.Instance().GetHistory().GetLastResult().GetLearningText(), null, null);
+                            txtLearningLang.setText(learningTextToSet);
+                            String nativeTextToSet = formatCombinedString(AppSettings.Instance().GetHistory().GetLastResult().GetNativeText(), null, null);
+                            txtNativeLang.setText(nativeTextToSet);
+                            processor.EnableCombined(true);
+                        }
+                        controlsEditEnd();
+                    }
+                });
 
     }
 

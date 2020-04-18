@@ -10,20 +10,6 @@ import java.util.stream.Collectors;
 
 public class ResultsProcessor {
     Speaker speaker;
-    // TODO This file is a test mess now; not actual implementation
-    // Translator translator;
-    // UserData userData;
-    // List<Results> results
-    //
-    // void PromoteResult()
-    // Translate it
-    // Display it
-    // Play on speaker
-    // Update user dictionary
-    //
-    //
-    // void CombineWithPrevious();
-
     private List<IPromoteResultsListener> listeners = new ArrayList<IPromoteResultsListener>();
     private Translator translator;
     private Boolean combineResults;
@@ -75,8 +61,6 @@ public class ResultsProcessor {
             PromoteResult(result);
 
         }
-
-        combineResults = false;
         AppSettings.Instance().GetHistory().Add(result);
     }
 
@@ -84,7 +68,6 @@ public class ResultsProcessor {
         for (IPromoteResultsListener listener : listeners) {
             listener.onPromoteResult(result);
         }
-        combineResults = false;
         AppSettings.Instance().GetHistory().Add(result);
     }
 

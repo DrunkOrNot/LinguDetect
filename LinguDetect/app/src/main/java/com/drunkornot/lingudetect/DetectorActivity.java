@@ -30,7 +30,6 @@ import android.os.Bundle;
 import android.os.SystemClock;
 import android.util.Size;
 import android.util.TypedValue;
-import android.widget.Button;
 import android.widget.Toast;
 import java.io.IOException;
 import java.util.LinkedList;
@@ -45,7 +44,6 @@ import com.drunkornot.lingudetect.lingu.Speaker;
 import com.drunkornot.lingudetect.tflite.Classifier;
 import com.drunkornot.lingudetect.tflite.TFLiteObjectDetectionAPIModel;
 import com.drunkornot.lingudetect.tracking.MultiBoxTracker;
-import com.google.firebase.FirebaseApp;
 
 /**
  * An activity that uses a TensorFlowMultiBoxDetector and ObjectTracker to detect and then track
@@ -89,7 +87,6 @@ public class DetectorActivity extends CameraActivity implements OnImageAvailable
   @Override
   protected void onCreate(final Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    FirebaseApp.initializeApp(this);
     speaker = new Speaker(this);
   }
   @Override

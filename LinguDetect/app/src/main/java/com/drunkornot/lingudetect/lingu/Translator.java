@@ -1,5 +1,7 @@
 package com.drunkornot.lingudetect.lingu;
 
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 
 import com.google.android.gms.tasks.Continuation;
@@ -24,10 +26,14 @@ public class Translator {
 
     public String Translate(String text, String targetLanguage, String sourceLanguage) {
         Task<String> translateTask = TranslateAsync(text, targetLanguage, sourceLanguage);
-        while (!translateTask.isComplete()) {
-            // TODO I need to do it more civilized way
+        // excuse my ugliness
+        long timeoutTime = System.currentTimeMillis() + 1000;
+        while (!translateTask.isComplete() || System.currentTimeMillis() <= timeoutTime) {
         }
-        return translateTask.getResult();
+        if(translateTask.isComplete())
+            return translateTask.getResult();
+        else
+            return "";
     }
 
 
