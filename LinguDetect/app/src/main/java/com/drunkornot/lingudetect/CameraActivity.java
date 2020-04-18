@@ -375,7 +375,15 @@ public abstract class CameraActivity extends AppCompatActivity
             @Override
             public void run() {
                 if (result == null) {
-
+                    // TODO: Duplicate code WIP, we will handle unknown result here
+                    controlsEditStart();
+                    String learningText = formatCombinedString(summand1.GetLearningText(), summand2.GetLearningText(), "");
+                    txtLearningLang.setText(learningText);
+                    String nativeText = formatCombinedString(summand1.GetNativeText(), summand2.GetNativeText(),"");
+                    txtNativeLang.setText(nativeText);
+                    controlsEditEnd();
+                    String textToSpeak = formatCombinedForSpeaker(summand1.GetLearningText(), summand2.GetLearningText(), "");
+                    speaker.TrySpeak(textToSpeak);
                 } else {
                     controlsEditStart();
                     String learningText = formatCombinedString(summand1.GetLearningText(), summand2.GetLearningText(), result.GetLearningText());
