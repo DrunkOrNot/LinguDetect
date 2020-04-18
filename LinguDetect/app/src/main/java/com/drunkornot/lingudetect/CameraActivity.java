@@ -87,7 +87,6 @@ public abstract class CameraActivity extends AppCompatActivity
     private Button btnChangeCombineResults;
     private TextView txtLearningLang;
     private TextView txtNativeLang;
-    private TextView txtCombined;
     private LinearLayout gestureLayout;
 
     private static boolean allPermissionsGranted(final int[] grantResults) {
@@ -126,7 +125,8 @@ public abstract class CameraActivity extends AppCompatActivity
             public void onClick(View v) {
                 controlsEditStart();
                 if (AppSettings.Instance().GetHistory().HasLastResult()) {
-                    txtCombined.setText(AppSettings.Instance().GetHistory().GetLastResult().GetLearningText() + " + ... = ???");
+                    txtLearningLang.setText(AppSettings.Instance().GetHistory().GetLastResult().GetLearningText() + " + ... = ???");
+                    txtNativeLang.setText(AppSettings.Instance().GetHistory().GetLastResult().GetNativeText() + " + ... = ???");
                     processor.EnableCombined(true);
                 }
                 controlsEditEnd();
@@ -139,7 +139,6 @@ public abstract class CameraActivity extends AppCompatActivity
         btnChangeCombineResults = findViewById(R.id.btnCombine);
         txtLearningLang = findViewById(R.id.txtLearningLang);
         txtNativeLang = findViewById(R.id.txtNativeLang);
-        txtCombined = findViewById(R.id.txtCombined);
     }
 
     protected int[] getRgbBytes() {
@@ -355,14 +354,12 @@ public abstract class CameraActivity extends AppCompatActivity
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-        controlsEditStart();
-        StringBuilder text = new StringBuilder();
-        text.append(AppSettings.Instance().GetHistory().GetLastResult().GetLearningText());
-        text.append(" + ");
-        text.append(summand1.GetLearningText());
-        text.append(" = ");
-        txtCombined.setText(text.toString());
-        controlsEditEnd();
+                controlsEditStart();
+                String learningText = formatCombinedString(summand1.GetLearningText(), summand2.GetLearningText(), result.GetLearningText());
+                txtLearningLang.setText(learningText);
+                String nativeText = formatCombinedString(summand1.GetNativeText(), summand2.GetNativeText(), result.GetNativeText());
+                txtNativeLang.setText(nativeText);
+                controlsEditEnd();
             }
         });
     }
@@ -383,7 +380,24 @@ public abstract class CameraActivity extends AppCompatActivity
     private void clearControls() {
         txtLearningLang.setText("");
         txtNativeLang.setText("");
-        txtCombined.setText("");
+    }
+
+    private String formatCombinedString(String summand1, String summand2, String result) {
+        StringBuilder text = new StringBuilder();
+        text.append(summand1);
+        text.append(" + ");
+        if (summand2 == null) {
+            text.append(" ... ");
+        } else {
+            text.append(summand2);
+        }
+        text.append(" = ");
+        if (result == null) {
+            text.append(" ??? ");
+        } else {
+            text.append(result);
+        }
+        return text.toString();
     }
 
     private void clearAfterTime() {
