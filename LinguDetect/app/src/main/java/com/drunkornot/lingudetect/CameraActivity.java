@@ -56,6 +56,7 @@ import com.drunkornot.lingudetect.lingu.Result;
 import com.drunkornot.lingudetect.lingu.ResultsProcessor;
 import com.drunkornot.lingudetect.lingu.Speaker;
 import com.drunkornot.lingudetect.lingu.Timer;
+import com.drunkornot.lingudetect.lingu.Translator;
 
 import java.nio.ByteBuffer;
 
@@ -74,6 +75,9 @@ public abstract class CameraActivity extends AppCompatActivity
     protected ResultsProcessor processor;
     protected Speaker speaker;
     protected Timer timer;
+    protected Translator translator;
+    protected String plusTranslated = new String();
+    protected String equalsTranslated = new String();
     private boolean debug = false;
     private Handler handler;
     private HandlerThread handlerThread;
@@ -118,6 +122,11 @@ public abstract class CameraActivity extends AppCompatActivity
 
         timer = new Timer();
         timer.AddListener(this);
+
+        translator = new Translator();
+
+        plusTranslated = translator.Translate("plus", AppSettings.Instance().GetCurrentUser().GetUsersLearningLanguage());
+        equalsTranslated = translator.Translate("equals", AppSettings.Instance().GetCurrentUser().GetUsersLearningLanguage());
 
         btnChangeCombineResults.setOnClickListener(new View.OnClickListener() {
             @SuppressLint("SetTextI18n")
@@ -342,8 +351,8 @@ public abstract class CameraActivity extends AppCompatActivity
                 controlsEditStart();
                 txtLearningLang.setText(result.GetLearningText());
                 txtNativeLang.setText(result.GetNativeText());
-                speaker.TrySpeak(result.GetLearningText());
                 controlsEditEnd();
+                speaker.TrySpeak(result.GetLearningText());
             }
         });
 
@@ -354,12 +363,18 @@ public abstract class CameraActivity extends AppCompatActivity
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                controlsEditStart();
-                String learningText = formatCombinedString(summand1.GetLearningText(), summand2.GetLearningText(), result.GetLearningText());
-                txtLearningLang.setText(learningText);
-                String nativeText = formatCombinedString(summand1.GetNativeText(), summand2.GetNativeText(), result.GetNativeText());
-                txtNativeLang.setText(nativeText);
-                controlsEditEnd();
+                if (result == null) {
+
+                } else {
+                    controlsEditStart();
+                    String learningText = formatCombinedString(summand1.GetLearningText(), summand2.GetLearningText(), result.GetLearningText());
+                    txtLearningLang.setText(learningText);
+                    String nativeText = formatCombinedString(summand1.GetNativeText(), summand2.GetNativeText(), result.GetNativeText());
+                    txtNativeLang.setText(nativeText);
+                    controlsEditEnd();
+                    String textToSpeak = formatCombinedForSpeaker(summand1.GetLearningText(), summand2.GetLearningText(), result.GetLearningText());
+                    speaker.TrySpeak(textToSpeak);
+                }
             }
         });
     }
@@ -397,6 +412,16 @@ public abstract class CameraActivity extends AppCompatActivity
         } else {
             text.append(result);
         }
+        return text.toString();
+    }
+
+    private String formatCombinedForSpeaker(String summand1, String summand2, String result) {
+        StringBuilder text = new StringBuilder();
+        text.append(summand1);
+        text.append(plusTranslated);
+        text.append(summand2);
+        text.append(equalsTranslated);
+        text.append(result);
         return text.toString();
     }
 
