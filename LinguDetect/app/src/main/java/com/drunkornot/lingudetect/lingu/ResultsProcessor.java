@@ -73,7 +73,8 @@ public class ResultsProcessor {
 
     private void PromoteCombinedResult(Result result) {
         Result finalResult = Combiner.Combine(AppSettings.Instance().GetHistory().GetLastResult(), result);
-        //TODO translate finalResult
+        finalResult.nativeText = translator.Translate(finalResult.GetKeyName(), finalResult.GetNativeLang());
+        finalResult.learningText = translator.Translate(finalResult.GetKeyName(), finalResult.GetLearningLang());
 
         for (IPromoteResultsListener listener : listeners) {
                 listener.onPromoteCombinedResult(AppSettings.Instance().GetHistory().GetLastResult(), result, finalResult );
