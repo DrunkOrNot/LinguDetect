@@ -1,6 +1,11 @@
 package com.drunkornot.lingudetect.lingu;
 
+import java.util.ArrayList;
+
 public class Combiner {
+
+    ArrayList<CombinedEntry> CombinedEntries = new ArrayList<>();
+
 
     private Combiner() {
     }
@@ -9,4 +14,7 @@ public class Combiner {
         //TODO Implementation
         return null;
     }
+
+
+
 }
