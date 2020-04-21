@@ -79,6 +79,7 @@ public abstract class CameraActivity extends AppCompatActivity
     protected Translator translator;
     protected String plusTranslated;
     protected String equalsTranslated;
+    protected String noResultTranslated;
     private boolean debug = false;
     private Handler handler;
     private HandlerThread handlerThread;
@@ -134,6 +135,7 @@ public abstract class CameraActivity extends AppCompatActivity
                     public void run() {
                         equalsTranslated = translator.Translate("equals", AppSettings.Instance().GetCurrentUser().GetUsersLearningLanguage());
                         plusTranslated = translator.Translate("plus", AppSettings.Instance().GetCurrentUser().GetUsersLearningLanguage());
+                        noResultTranslated = translator.Translate("no result", AppSettings.Instance().GetCurrentUser().GetUsersLearningLanguage());
                     }
                 });
 
@@ -377,13 +379,9 @@ public abstract class CameraActivity extends AppCompatActivity
                 if (result == null) {
                     // TODO: Duplicate code WIP, we will handle unknown result here
                     controlsEditStart();
-                    String learningText = formatCombinedString(summand1.GetLearningText(), summand2.GetLearningText(), "");
-                    txtLearningLang.setText(learningText);
-                    String nativeText = formatCombinedString(summand1.GetNativeText(), summand2.GetNativeText(),"");
-                    txtNativeLang.setText(nativeText);
+                    txtLearningLang.setText(noResultTranslated);
                     controlsEditEnd();
-                    String textToSpeak = formatCombinedForSpeaker(summand1.GetLearningText(), summand2.GetLearningText(), "");
-                    speaker.TrySpeak(textToSpeak);
+                    speaker.TrySpeak(noResultTranslated);
                 } else {
                     controlsEditStart();
                     String learningText = formatCombinedString(summand1.GetLearningText(), summand2.GetLearningText(), result.GetLearningText());
