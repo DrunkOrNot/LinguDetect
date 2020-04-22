@@ -1,8 +1,8 @@
 package com.drunkornot.lingudetect.lingu;
 
 public class Result {
-    public String nativeText;
-    public String learningText;
+    private String nativeText;
+    private String learningText;
     private String keyName;
     private String nativeLang;
     private String learningLang;
@@ -11,8 +11,8 @@ public class Result {
         this.keyName = keyName;
         this.nativeLang = nativeLang;
         this.learningLang = learningLang;
-        nativeText = new String();
-        learningText = new String();
+        nativeText = Translator.Translate(keyName, nativeLang);
+        learningText = Translator.Translate(keyName, learningLang);
     }
 
     public String GetKeyName() {
@@ -34,5 +34,6 @@ public class Result {
     public String GetLearningText() {
         return learningText;
     }
+
 }
 

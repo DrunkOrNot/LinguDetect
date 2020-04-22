@@ -37,9 +37,6 @@ public class ResultsProcessor {
                 AppSettings.Instance().GetCurrentUser().GetUsersNativeLanguage(),
                 AppSettings.Instance().GetCurrentUser().GetUsersLearningLanguage());
 
-        result.learningText = Translator.Translate(result.GetKeyName(), result.GetLearningLang());
-        result.nativeText = Translator.Translate(result.GetKeyName(), result.GetNativeLang());
-
         if(combineResults) {
             PromoteCombinedResult(result);
         }
@@ -59,10 +56,6 @@ public class ResultsProcessor {
 
     private void PromoteCombinedResult(Result result) {
         Result finalResult = Combiner.Combine(AppSettings.Instance().GetHistory().GetLastResult(), result);
-        if(finalResult != null) {
-            finalResult.learningText = Translator.Translate(finalResult.GetKeyName(), finalResult.GetLearningLang());
-            finalResult.nativeText = Translator.Translate(finalResult.GetKeyName(), finalResult.GetNativeLang());
-        }
 
         for (IPromoteResultsListener listener : listeners) {
                 listener.onPromoteCombinedResult(AppSettings.Instance().GetHistory().GetLastResult(), result, finalResult );
