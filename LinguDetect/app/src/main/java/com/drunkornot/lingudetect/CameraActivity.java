@@ -77,7 +77,6 @@ public abstract class CameraActivity extends AppCompatActivity
     protected ResultsProcessor processor;
     protected Speaker speaker;
     protected Timer timer;
-    protected Translator translator;
     protected Task<String> plusTranslatedTask;
     protected Task<String> equalsTranslatedTask;
     protected Task<String> noResultTranslatedTask;
@@ -128,11 +127,9 @@ public abstract class CameraActivity extends AppCompatActivity
         timer = new Timer();
         timer.AddListener(this);
 
-        translator = new Translator();
-
-        equalsTranslatedTask = translator.TranslateAsync("equals", AppSettings.Instance().GetCurrentUser().GetUsersLearningLanguage());
-        plusTranslatedTask = translator.TranslateAsync("plus", AppSettings.Instance().GetCurrentUser().GetUsersLearningLanguage());
-        noResultTranslatedTask = translator.TranslateAsync("no result", AppSettings.Instance().GetCurrentUser().GetUsersLearningLanguage());
+        equalsTranslatedTask = Translator.TranslateAsync("equals", AppSettings.Instance().GetCurrentUser().GetUsersLearningLanguage());
+        plusTranslatedTask = Translator.TranslateAsync("plus", AppSettings.Instance().GetCurrentUser().GetUsersLearningLanguage());
+        noResultTranslatedTask = Translator.TranslateAsync("no result", AppSettings.Instance().GetCurrentUser().GetUsersLearningLanguage());
 
         btnChangeCombineResults.setOnClickListener(new View.OnClickListener() {
             @SuppressLint("SetTextI18n")

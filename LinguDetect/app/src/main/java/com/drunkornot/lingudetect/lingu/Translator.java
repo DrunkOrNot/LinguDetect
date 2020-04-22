@@ -1,7 +1,5 @@
 package com.drunkornot.lingudetect.lingu;
 
-import android.util.Log;
-
 import androidx.annotation.NonNull;
 
 import com.google.android.gms.tasks.Continuation;
@@ -14,17 +12,13 @@ import com.google.firebase.ml.naturallanguage.translate.FirebaseTranslatorOption
 
 public class Translator {
 
-    String defaultSourceLang = "en";
+    static String defaultSourceLang = "en";
 
-    public Translator() {
-
-    }
-
-    public String Translate(String text, String targetLanguage) {
+    public static String Translate(String text, String targetLanguage) {
         return Translate(text, targetLanguage, defaultSourceLang);
     }
 
-    public String Translate(String text, String targetLanguage, String sourceLanguage) {
+    public static String Translate(String text, String targetLanguage, String sourceLanguage) {
         Task<String> translateTask = TranslateAsync(text, targetLanguage, sourceLanguage);
         // excuse my ugliness
         long timeoutTime = System.currentTimeMillis() + 1000;
@@ -37,11 +31,11 @@ public class Translator {
     }
 
 
-    public Task<String> TranslateAsync(String text, String targetLanguage) {
+    public static Task<String> TranslateAsync(String text, String targetLanguage) {
         return TranslateAsync(text, targetLanguage, defaultSourceLang);
     }
 
-    public Task<String> TranslateAsync(String text, String targetLanguage, String sourceLanguage) {
+    public static Task<String> TranslateAsync(String text, String targetLanguage, String sourceLanguage) {
         int sourceLangCode =
                 FirebaseTranslateLanguage.languageForLanguageCode(sourceLanguage);
         int targetLangCode =

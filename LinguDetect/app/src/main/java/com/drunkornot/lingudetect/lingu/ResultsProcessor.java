@@ -10,12 +10,10 @@ import java.util.stream.Collectors;
 
 public class ResultsProcessor {
     private List<IPromoteResultsListener> listeners = new ArrayList<IPromoteResultsListener>();
-    private Translator translator;
     private Boolean combineResults;
     private float minConfidence = 0.7f;
 
     public ResultsProcessor() {
-        translator = new Translator();
         combineResults = false;
     }
 
@@ -39,8 +37,8 @@ public class ResultsProcessor {
                 AppSettings.Instance().GetCurrentUser().GetUsersNativeLanguage(),
                 AppSettings.Instance().GetCurrentUser().GetUsersLearningLanguage());
 
-        result.learningText = translator.Translate(result.GetKeyName(), result.GetLearningLang());
-        result.nativeText = translator.Translate(result.GetKeyName(), result.GetNativeLang());
+        result.learningText = Translator.Translate(result.GetKeyName(), result.GetLearningLang());
+        result.nativeText = Translator.Translate(result.GetKeyName(), result.GetNativeLang());
 
         if(combineResults) {
             PromoteCombinedResult(result);
@@ -62,8 +60,8 @@ public class ResultsProcessor {
     private void PromoteCombinedResult(Result result) {
         Result finalResult = Combiner.Combine(AppSettings.Instance().GetHistory().GetLastResult(), result);
         if(finalResult != null) {
-            finalResult.learningText = translator.Translate(finalResult.GetKeyName(), finalResult.GetLearningLang());
-            finalResult.nativeText = translator.Translate(finalResult.GetKeyName(), finalResult.GetNativeLang());
+            finalResult.learningText = Translator.Translate(finalResult.GetKeyName(), finalResult.GetLearningLang());
+            finalResult.nativeText = Translator.Translate(finalResult.GetKeyName(), finalResult.GetNativeLang());
         }
 
         for (IPromoteResultsListener listener : listeners) {
