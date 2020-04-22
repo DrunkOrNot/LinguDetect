@@ -15,6 +15,8 @@ import android.widget.Toast;
 
 import com.drunkornot.lingudetect.lingu.AppSettings;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -31,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     Button btnGoToCameraActivity;
     Spinner spLang;
+    private DatabaseReference mDatabase;
 
 
     @Override
@@ -78,6 +81,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void LogUserIn() {
+        mAuth = FirebaseAuth.getInstance();
         mAuth.signInAnonymously()
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
@@ -95,9 +99,23 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
 
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference("test");
 
-        myRef.setValue("Hello, World!");
+// ...
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        mDatabase.child("users").child("test").setValue("hello").addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                Toast.makeText(MainActivity.this, "Write successful",
+                        Toast.LENGTH_SHORT).show();
+            }
+        })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(MainActivity.this, "Write unsuccessful",
+                                Toast.LENGTH_SHORT).show();
+                    }
+                });
+
     }
 }
