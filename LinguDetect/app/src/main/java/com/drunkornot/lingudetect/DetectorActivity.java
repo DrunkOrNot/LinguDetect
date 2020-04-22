@@ -195,7 +195,7 @@ public class DetectorActivity extends CameraActivity implements OnImageAvailable
                 paint.setStyle(Style.STROKE);
                 paint.setStrokeWidth(2.0f);
 
-                float minimumConfidence = processor.getMinConfidence();
+                float minimumConfidence = processor.GetMinConfidence();
 
                 final List<Classifier.Recognition> mappedRecognitions =
                         new LinkedList<Classifier.Recognition>();

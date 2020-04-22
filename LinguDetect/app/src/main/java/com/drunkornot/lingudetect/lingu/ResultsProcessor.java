@@ -25,7 +25,7 @@ public class ResultsProcessor {
         combineResults = enable;
     }
 
-    void PromoteResult(Classifier.Recognition classifierResult) {
+    void DesignateResult(Classifier.Recognition classifierResult) {
 
         if (!CanPromoteResult()) {
             return;
@@ -42,8 +42,8 @@ public class ResultsProcessor {
         }
         else {
             PromoteResult(result);
-
         }
+
         AppSettings.Instance().GetHistory().Add(result);
     }
 
@@ -51,7 +51,6 @@ public class ResultsProcessor {
         for (IPromoteResultsListener listener : listeners) {
             listener.onPromoteResult(result);
         }
-        AppSettings.Instance().GetHistory().Add(result);
     }
 
     private void PromoteCombinedResult(Result result) {
@@ -61,7 +60,7 @@ public class ResultsProcessor {
                 listener.onPromoteCombinedResult(AppSettings.Instance().GetHistory().GetLastResult(), result, finalResult );
         }
         combineResults = false;
-        AppSettings.Instance().GetHistory().Add(result);
+
         //TODO Combined History
     }
 
@@ -71,7 +70,7 @@ public class ResultsProcessor {
         if (recognized.size() == 0) {
             return;
         } else if (recognized.size() == 1) {
-            PromoteResult(recognized.get(0));
+            DesignateResult(recognized.get(0));
         } else {
             float biggestArea = 0;
             Classifier.Recognition bestResult = new Classifier.Recognition("", "", 0.0f, new RectF());
@@ -83,7 +82,7 @@ public class ResultsProcessor {
                     bestResult = result;
                 }
             }
-            PromoteResult(bestResult);
+            DesignateResult(bestResult);
         }
     }
 
@@ -99,7 +98,7 @@ public class ResultsProcessor {
         return true;
     }
 
-    public float getMinConfidence() {
+    public float GetMinConfidence() {
         return minConfidence;
     }
 
