@@ -1,5 +1,7 @@
 package com.drunkornot.lingudetect.lingu;
 
+import com.google.firebase.auth.FirebaseUser;
+
 public class UserData {
 
     public UserData() {
@@ -8,6 +10,7 @@ public class UserData {
 
     private String userNativeLang;
     private String userLearningLang;
+//    private FirebaseUser firebaseUser;
 
     // Provide BCP-47 code only
     public void SetUsersNativeLanguage(String lang) {
@@ -38,4 +41,12 @@ public class UserData {
         else
             throw new IllegalArgumentException("Users Learning Language is not set");
     }
+
+//    public FirebaseUser GetFirebaseUser() {
+//        return firebaseUser;
+//    }
+//
+//    public FirebaseUser SetFirebaseUser(FirebaseUser user) {
+//        firebaseUser = user;
+//    }
 }
