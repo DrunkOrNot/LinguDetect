@@ -57,6 +57,7 @@ import com.drunkornot.lingudetect.lingu.ResultsProcessor;
 import com.drunkornot.lingudetect.lingu.Speaker;
 import com.drunkornot.lingudetect.lingu.Timer;
 import com.drunkornot.lingudetect.lingu.Translator;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseApp;
 
 import java.nio.ByteBuffer;
@@ -77,9 +78,9 @@ public abstract class CameraActivity extends AppCompatActivity
     protected Speaker speaker;
     protected Timer timer;
     protected Translator translator;
-    protected String plusTranslated;
-    protected String equalsTranslated;
-    protected String noResultTranslated;
+    protected Task<String> plusTranslatedTask;
+    protected Task<String> equalsTranslatedTask;
+    protected Task<String> noResultTranslatedTask;
     private boolean debug = false;
     private Handler handler;
     private HandlerThread handlerThread;
@@ -129,15 +130,9 @@ public abstract class CameraActivity extends AppCompatActivity
 
         translator = new Translator();
 
-        runInBackground(
-                new Runnable() {
-                    @Override
-                    public void run() {
-                        equalsTranslated = translator.Translate("equals", AppSettings.Instance().GetCurrentUser().GetUsersLearningLanguage());
-                        plusTranslated = translator.Translate("plus", AppSettings.Instance().GetCurrentUser().GetUsersLearningLanguage());
-                        noResultTranslated = translator.Translate("no result", AppSettings.Instance().GetCurrentUser().GetUsersLearningLanguage());
-                    }
-                });
+        equalsTranslatedTask = translator.TranslateAsync("equals", AppSettings.Instance().GetCurrentUser().GetUsersLearningLanguage());
+        plusTranslatedTask = translator.TranslateAsync("plus", AppSettings.Instance().GetCurrentUser().GetUsersLearningLanguage());
+        noResultTranslatedTask = translator.TranslateAsync("no result", AppSettings.Instance().GetCurrentUser().GetUsersLearningLanguage());
 
                 btnChangeCombineResults.setOnClickListener(new View.OnClickListener() {
                     @SuppressLint("SetTextI18n")
@@ -373,25 +368,27 @@ public abstract class CameraActivity extends AppCompatActivity
 
     @Override
     public void onPromoteCombinedResult(Result summand1, Result summand2, Result result) {
+        if (result == null) {
+            // TODO: Duplicate code WIP, we will handle unknown result here
+            controlsEditStart();
+            txtLearningLang.setText(noResultTranslatedTask.getResult());
+            controlsEditEnd();
+            speaker.TrySpeak(noResultTranslatedTask.getResult());
+        }
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                if (result == null) {
-                    // TODO: Duplicate code WIP, we will handle unknown result here
-                    controlsEditStart();
-                    txtLearningLang.setText(noResultTranslated);
-                    controlsEditEnd();
-                    speaker.TrySpeak(noResultTranslated);
-                } else {
-                    controlsEditStart();
-                    String learningText = formatCombinedString(summand1.GetLearningText(), summand2.GetLearningText(), result.GetLearningText());
-                    txtLearningLang.setText(learningText);
-                    String nativeText = formatCombinedString(summand1.GetNativeText(), summand2.GetNativeText(), result.GetNativeText());
-                    txtNativeLang.setText(nativeText);
-                    controlsEditEnd();
-                    String textToSpeak = formatCombinedForSpeaker(summand1.GetLearningText(), summand2.GetLearningText(), result.GetLearningText());
-                    speaker.TrySpeak(textToSpeak);
-                }
+
+//                } else {
+//                    controlsEditStart();
+//                    String learningText = formatCombinedString(summand1.GetLearningText(), summand2.GetLearningText(), result.GetLearningText());
+//                    txtLearningLang.setText(learningText);
+//                    String nativeText = formatCombinedString(summand1.GetNativeText(), summand2.GetNativeText(), result.GetNativeText());
+//                    txtNativeLang.setText(nativeText);
+//                    controlsEditEnd();
+//                    String textToSpeak = formatCombinedForSpeaker(summand1.GetLearningText(), summand2.GetLearningText(), result.GetLearningText());
+//                    speaker.TrySpeak(textToSpeak);
+//                }
             }
         });
     }
@@ -435,9 +432,9 @@ public abstract class CameraActivity extends AppCompatActivity
     private String formatCombinedForSpeaker(String summand1, String summand2, String result) {
         StringBuilder text = new StringBuilder();
         text.append(summand1);
-        text.append(plusTranslated);
+        text.append(plusTranslatedTask.getResult());
         text.append(summand2);
-        text.append(equalsTranslated);
+        text.append(equalsTranslatedTask.getResult());
         text.append(result);
         return text.toString();
     }

@@ -26,17 +26,17 @@ public class ResultsProcessor {
 
     public void EnableCombined(Boolean enable) {
         combineResults = enable;
-        if(enable) {
-            new Thread() {
-                public void run() {
-                    long timeout = System.currentTimeMillis() + combineTimeout;
-                    while(System.currentTimeMillis() <= timeout && combineResults ) {
-                    }
-                    combineResults = false;
-                }
-            }.start();
-        }
-
+        // TODO WIP: For simplicity "timeouting" is disabled
+//        if(enable) {
+//            new Thread() {
+//                public void run() {
+//                    long timeout = System.currentTimeMillis() + combineTimeout;
+//                    while(System.currentTimeMillis() <= timeout && combineResults ) {
+//                    }
+//                    combineResults = false;
+//                }
+//            }.start();
+//        }
     }
 
     void PromoteResult(Classifier.Recognition classifierResult) {
@@ -73,8 +73,10 @@ public class ResultsProcessor {
 
     private void PromoteCombinedResult(Result result) {
         Result finalResult = Combiner.Combine(AppSettings.Instance().GetHistory().GetLastResult(), result);
-        finalResult.nativeText = translator.Translate(finalResult.GetKeyName(), finalResult.GetNativeLang());
-        finalResult.learningText = translator.Translate(finalResult.GetKeyName(), finalResult.GetLearningLang());
+        if(finalResult != null) {
+            finalResult.learningText = translator.Translate(finalResult.GetKeyName(), finalResult.GetLearningLang());
+            finalResult.nativeText = translator.Translate(finalResult.GetKeyName(), finalResult.GetNativeLang());
+        }
 
         for (IPromoteResultsListener listener : listeners) {
                 listener.onPromoteCombinedResult(AppSettings.Instance().GetHistory().GetLastResult(), result, finalResult );
