@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class ResultsProcessor {
-    Speaker speaker;
     private List<IPromoteResultsListener> listeners = new ArrayList<IPromoteResultsListener>();
     private Translator translator;
     private Boolean combineResults;
@@ -26,17 +25,6 @@ public class ResultsProcessor {
 
     public void EnableCombined(Boolean enable) {
         combineResults = enable;
-        // TODO WIP: For simplicity "timeouting" is disabled
-//        if(enable) {
-//            new Thread() {
-//                public void run() {
-//                    long timeout = System.currentTimeMillis() + combineTimeout;
-//                    while(System.currentTimeMillis() <= timeout && combineResults ) {
-//                    }
-//                    combineResults = false;
-//                }
-//            }.start();
-//        }
     }
 
     void PromoteResult(Classifier.Recognition classifierResult) {
@@ -125,7 +113,6 @@ public class ResultsProcessor {
     }
 
     //region Timer
-    private static int combineTimeout = 5000;
     private long lastFired = 0;
     private long resultDuration = 5000;
 

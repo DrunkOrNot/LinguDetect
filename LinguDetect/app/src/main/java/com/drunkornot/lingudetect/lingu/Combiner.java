@@ -7,7 +7,7 @@ public class Combiner {
 
     static ArrayList<CombinedEntry> CombinedEntries = new ArrayList<>(Arrays.asList(
             new CombinedEntry("laptop", "mouse", "computer stand"),
-            new CombinedEntry("cup", "tv", "cracked screen")));
+            new CombinedEntry("cup", "mouse", "cracked screen")));
 
     private Combiner() {
     }

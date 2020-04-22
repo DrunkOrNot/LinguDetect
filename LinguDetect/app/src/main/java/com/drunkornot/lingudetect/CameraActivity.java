@@ -134,21 +134,21 @@ public abstract class CameraActivity extends AppCompatActivity
         plusTranslatedTask = translator.TranslateAsync("plus", AppSettings.Instance().GetCurrentUser().GetUsersLearningLanguage());
         noResultTranslatedTask = translator.TranslateAsync("no result", AppSettings.Instance().GetCurrentUser().GetUsersLearningLanguage());
 
-                btnChangeCombineResults.setOnClickListener(new View.OnClickListener() {
-                    @SuppressLint("SetTextI18n")
-                    @Override
-                    public void onClick(View v) {
-                        controlsEditStart();
-                        if (AppSettings.Instance().GetHistory().HasLastResult()) {
-                            String learningTextToSet = formatCombinedString(AppSettings.Instance().GetHistory().GetLastResult().GetLearningText(), null, null);
-                            txtLearningLang.setText(learningTextToSet);
-                            String nativeTextToSet = formatCombinedString(AppSettings.Instance().GetHistory().GetLastResult().GetNativeText(), null, null);
-                            txtNativeLang.setText(nativeTextToSet);
-                            processor.EnableCombined(true);
-                        }
-                        controlsEditEnd();
-                    }
-                });
+        btnChangeCombineResults.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("SetTextI18n")
+            @Override
+            public void onClick(View v) {
+                controlsEditStart();
+                if (AppSettings.Instance().GetHistory().HasLastResult()) {
+                    String learningTextToSet = formatCombinedString(AppSettings.Instance().GetHistory().GetLastResult().GetLearningText(), null, null);
+                    txtLearningLang.setText(learningTextToSet);
+                    String nativeTextToSet = formatCombinedString(AppSettings.Instance().GetHistory().GetLastResult().GetNativeText(), null, null);
+                    txtNativeLang.setText(nativeTextToSet);
+                    processor.EnableCombined(true);
+                }
+                controlsEditEnd();
+            }
+        });
 
     }
 
@@ -369,28 +369,23 @@ public abstract class CameraActivity extends AppCompatActivity
     @Override
     public void onPromoteCombinedResult(Result summand1, Result summand2, Result result) {
         if (result == null) {
-            // TODO: Duplicate code WIP, we will handle unknown result here
             controlsEditStart();
             txtLearningLang.setText(noResultTranslatedTask.getResult());
             controlsEditEnd();
+
             speaker.TrySpeak(noResultTranslatedTask.getResult());
         }
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
+        else {
+            controlsEditStart();
+            String learningText = formatCombinedString(summand1.GetLearningText(), summand2.GetLearningText(), result.GetLearningText());
+            txtLearningLang.setText(learningText);
+            String nativeText = formatCombinedString(summand1.GetNativeText(), summand2.GetNativeText(), result.GetNativeText());
+            txtNativeLang.setText(nativeText);
+            controlsEditEnd();
 
-//                } else {
-//                    controlsEditStart();
-//                    String learningText = formatCombinedString(summand1.GetLearningText(), summand2.GetLearningText(), result.GetLearningText());
-//                    txtLearningLang.setText(learningText);
-//                    String nativeText = formatCombinedString(summand1.GetNativeText(), summand2.GetNativeText(), result.GetNativeText());
-//                    txtNativeLang.setText(nativeText);
-//                    controlsEditEnd();
-//                    String textToSpeak = formatCombinedForSpeaker(summand1.GetLearningText(), summand2.GetLearningText(), result.GetLearningText());
-//                    speaker.TrySpeak(textToSpeak);
-//                }
-            }
-        });
+            String textToSpeak = formatCombinedForSpeaker(summand1.GetLearningText(), summand2.GetLearningText(), result.GetLearningText());
+            speaker.TrySpeak(textToSpeak);
+        }
     }
 
     @Override
