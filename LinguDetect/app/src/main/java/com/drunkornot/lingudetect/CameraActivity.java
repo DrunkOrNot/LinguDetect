@@ -20,6 +20,7 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Fragment;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.hardware.Camera;
 import android.hardware.camera2.CameraAccessException;
@@ -91,6 +92,7 @@ public abstract class CameraActivity extends AppCompatActivity
     private Runnable postInferenceCallback;
     private Runnable imageConverter;
     private Button btnChangeCombineResults;
+    private Button btnGoToHistoryActivity;
     private TextView txtLearningLang;
     private TextView txtNativeLang;
     private LinearLayout gestureLayout;
@@ -147,10 +149,19 @@ public abstract class CameraActivity extends AppCompatActivity
             }
         });
 
+        btnGoToHistoryActivity.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("SetTextI18n")
+            @Override
+            public void onClick(View v) {
+                CameraActivity.this.startActivity(new Intent(CameraActivity.this, HistoryActivity.class));
+            }
+        });
+
     }
 
     private void InitView() {
         btnChangeCombineResults = findViewById(R.id.btnCombine);
+        btnGoToHistoryActivity = findViewById(R.id.btnHistory);
         txtLearningLang = findViewById(R.id.txtLearningLang);
         txtNativeLang = findViewById(R.id.txtNativeLang);
     }
