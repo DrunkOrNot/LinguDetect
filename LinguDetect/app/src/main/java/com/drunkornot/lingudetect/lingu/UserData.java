@@ -5,12 +5,14 @@ import com.google.firebase.auth.FirebaseUser;
 public class UserData {
 
     public UserData() {
-
+        history = new History();
     }
 
     private String userNativeLang;
     private String userLearningLang;
 //    private FirebaseUser firebaseUser;
+
+    private History history;
 
     // Provide BCP-47 code only
     public void SetUsersNativeLanguage(String lang) {
@@ -40,6 +42,10 @@ public class UserData {
             return userLearningLang;
         else
             throw new IllegalArgumentException("Users Learning Language is not set");
+    }
+
+    public void AddToUserHistory(Result result) {
+        history.AddIfNew(result);
     }
 
 //    public FirebaseUser GetFirebaseUser() {

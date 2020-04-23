@@ -14,6 +14,11 @@ public class History {
         history.add(result);
     }
 
+    public void AddIfNew(Result result) {
+        if(!history.contains(result))
+            history.add(result);
+    }
+
     public Result GetLastResult() {
         if (HasLastResult()) {
             return history.get(history.size() - 1);

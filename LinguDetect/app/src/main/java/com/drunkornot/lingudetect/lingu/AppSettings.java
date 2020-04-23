@@ -13,7 +13,7 @@ public class AppSettings {
     private AppSettings() {
         InitializeLanguages();
         userData = new UserData();
-        history = new History();
+        resultLog = new History();
     }
 
     static private AppSettings instance;
@@ -78,11 +78,15 @@ public class AppSettings {
     }
     //endregion
 
-    //region History
-    private History history;
+    //region ResultLog
+    private History resultLog;
 
-    public History GetHistory() {
-        return history;
+    public History GetResultLog() {
+        return resultLog;
+    }
+    public void LogResult(Result result) {
+        resultLog.Add(result);
+        GetCurrentUser().AddToUserHistory(result);
     }
     //endregion
 }

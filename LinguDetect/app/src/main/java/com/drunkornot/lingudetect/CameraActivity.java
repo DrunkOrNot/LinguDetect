@@ -136,10 +136,10 @@ public abstract class CameraActivity extends AppCompatActivity
             @Override
             public void onClick(View v) {
                 controlsEditStart();
-                if (AppSettings.Instance().GetHistory().HasLastResult()) {
-                    String learningTextToSet = formatCombinedString(AppSettings.Instance().GetHistory().GetLastResult().GetLearningText(), null, null);
+                if (AppSettings.Instance().GetResultLog().HasLastResult()) {
+                    String learningTextToSet = formatCombinedString(AppSettings.Instance().GetResultLog().GetLastResult().GetLearningText(), null, null);
                     txtLearningLang.setText(learningTextToSet);
-                    String nativeTextToSet = formatCombinedString(AppSettings.Instance().GetHistory().GetLastResult().GetNativeText(), null, null);
+                    String nativeTextToSet = formatCombinedString(AppSettings.Instance().GetResultLog().GetLastResult().GetNativeText(), null, null);
                     txtNativeLang.setText(nativeTextToSet);
                     processor.EnableCombined(true);
                 }
