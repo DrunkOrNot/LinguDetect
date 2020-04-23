@@ -128,7 +128,7 @@ public abstract class CameraActivity extends AppCompatActivity
         timer.AddListener(this);
 
         equalsTranslatedTask = Translator.TranslateAsync("equals", AppSettings.Instance().GetCurrentUser().GetUsersLearningLanguage());
-        plusTranslatedTask = Translator.TranslateAsync("plus", AppSettings.Instance().GetCurrentUser().GetUsersLearningLanguage());
+        plusTranslatedTask = Translator.TranslateAsync("and", AppSettings.Instance().GetCurrentUser().GetUsersLearningLanguage());
         noResultTranslatedTask = Translator.TranslateAsync("no result", AppSettings.Instance().GetCurrentUser().GetUsersLearningLanguage());
 
         btnChangeCombineResults.setOnClickListener(new View.OnClickListener() {

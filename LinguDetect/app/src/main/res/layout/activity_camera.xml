@@ -46,23 +46,29 @@
                 android:layout_height="match_parent">
 
                 <TextView
-                    android:id="@+id/txtLearningLang"
+                    android:id="@+id/txtNativeLang"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:background="#6188FF"
-                    android:text="TextView"
+                    android:drawableLeft="@drawable/ic_input_black_24dp"
+                    android:drawablePadding="2dip"
+                    android:paddingLeft="20dip"
+                    android:paddingRight="20dip"
                     android:textAlignment="center"
                     android:textColor="#000000" />
 
                 <TextView
-                    android:id="@+id/txtNativeLang"
+                    android:id="@+id/txtLearningLang"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/txtLearningLang"
+                    android:layout_below="@+id/txtNativeLang"
                     android:layout_marginTop="10dp"
                     android:background="#FFAF2D"
-                    android:text="TextView"
+                    android:drawableLeft="@drawable/ic_output_black_24dp"
+                    android:drawablePadding="2dip"
+                    android:paddingLeft="20dip"
+                    android:paddingRight="20dip"
                     android:textAlignment="center"
                     android:textColor="#000000" />
 
@@ -70,7 +76,7 @@
                     android:id="@+id/container"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_below="@+id/txtNativeLang"
+                    android:layout_below="@+id/txtLearningLang"
                     android:layout_marginTop="10dp"
                     tools:context="org.tensorflow.demo.CameraActivity"></FrameLayout>
 
