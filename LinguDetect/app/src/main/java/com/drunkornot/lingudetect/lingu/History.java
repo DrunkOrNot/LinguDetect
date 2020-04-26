@@ -55,4 +55,8 @@ public class History extends RecyclerView.Adapter {
         return true;
     }
 
+    public ArrayList<Result> GetHistoryAsList() {
+        return history;
+    }
+
 }

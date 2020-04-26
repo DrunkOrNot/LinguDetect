@@ -48,6 +48,8 @@ public class UserData {
         history.AddIfNew(result);
     }
 
+    public History GetUsersHistory() { return history; }
+
 //    public FirebaseUser GetFirebaseUser() {
 //        return firebaseUser;
 //    }
