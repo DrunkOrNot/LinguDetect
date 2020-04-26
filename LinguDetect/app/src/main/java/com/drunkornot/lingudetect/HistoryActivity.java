@@ -7,7 +7,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.os.Bundle;
 
 import com.drunkornot.lingudetect.lingu.AppSettings;
-import com.drunkornot.lingudetect.lingu.HistoryAdapter;
 
 public class HistoryActivity extends AppCompatActivity {
 

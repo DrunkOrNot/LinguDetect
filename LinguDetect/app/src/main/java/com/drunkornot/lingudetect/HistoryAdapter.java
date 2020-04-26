@@ -1,4 +1,4 @@
-package com.drunkornot.lingudetect.lingu;
+package com.drunkornot.lingudetect;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,7 +8,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.drunkornot.lingudetect.R;
+import com.drunkornot.lingudetect.lingu.History;
+import com.drunkornot.lingudetect.lingu.Result;
 
 import java.util.ArrayList;
 
