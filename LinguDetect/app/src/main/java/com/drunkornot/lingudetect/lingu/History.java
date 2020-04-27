@@ -36,7 +36,7 @@ public class History extends RecyclerView.Adapter {
     }
 
     public void AddIfNew(Result result) {
-        if(!history.contains(result))
+        if(!history.stream().anyMatch(element -> result.GetKeyName().equals(element.GetKeyName())))
             history.add(result);
     }
 

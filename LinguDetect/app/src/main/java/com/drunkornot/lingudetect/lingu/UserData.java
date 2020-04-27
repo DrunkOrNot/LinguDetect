@@ -4,14 +4,14 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class UserData {
 
-    public UserData() {
+    public UserData(String userID) {
+        this.userID = userID;
         history = new History();
     }
 
+    private String userID;
     private String userNativeLang;
     private String userLearningLang;
-//    private FirebaseUser firebaseUser;
-
     private History history;
 
     // Provide BCP-47 code only
