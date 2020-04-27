@@ -50,11 +50,5 @@ public class UserData {
 
     public History GetUsersHistory() { return history; }
 
-//    public FirebaseUser GetFirebaseUser() {
-//        return firebaseUser;
-//    }
-//
-//    public FirebaseUser SetFirebaseUser(FirebaseUser user) {
-//        firebaseUser = user;
-//    }
+    public String GetUsersID() { return userID; }
 }

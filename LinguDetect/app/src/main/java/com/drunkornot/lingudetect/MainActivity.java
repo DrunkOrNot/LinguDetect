@@ -1,5 +1,6 @@
 package com.drunkornot.lingudetect;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -9,9 +10,13 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.drunkornot.lingudetect.lingu.AppSettings;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 import java.util.Locale;
@@ -22,7 +27,6 @@ public class MainActivity extends AppCompatActivity {
     Button btnGoToCameraActivity;
     Spinner spLang;
     private DatabaseReference mDatabase;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,21 +72,21 @@ public class MainActivity extends AppCompatActivity {
         AppSettings.Instance().GetCurrentUser().SetUsersNativeLanguage(Locale.getDefault().getLanguage());
     }
 
-//    public void TestPostToDatabase() {
-//        mDatabase = FirebaseDatabase.getInstance().getReference();
-//        mDatabase.child("users").child(mAuth.getUid()).setValue("hello").addOnSuccessListener(new OnSuccessListener<Void>() {
-//            @Override
-//            public void onSuccess(Void aVoid) {
-//                Toast.makeText(MainActivity.this, "Write successful",
-//                        Toast.LENGTH_SHORT).show();
-//            }
-//        })
-//                .addOnFailureListener(new OnFailureListener() {
-//                    @Override
-//                    public void onFailure(@NonNull Exception e) {
-//                        Toast.makeText(MainActivity.this, "Write unsuccessful",
-//                                Toast.LENGTH_SHORT).show();
-//                    }
-//                });
-//    }
+    public void TestPostToDatabase() {
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        mDatabase.child("users").child(AppSettings.Instance().GetCurrentUser().GetUsersID()).setValue("hello").addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                Toast.makeText(MainActivity.this, "Write successful",
+                        Toast.LENGTH_SHORT).show();
+            }
+        })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(MainActivity.this, "Write unsuccessful",
+                                Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
 }
