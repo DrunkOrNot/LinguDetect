@@ -12,7 +12,6 @@ public class AppSettings {
 
     private AppSettings() {
         InitializeLanguages();
-        userData = new UserData();
         resultLog = new History();
     }
 
@@ -73,8 +72,20 @@ public class AppSettings {
     //region UserData
     private UserData userData;
 
+    public void ChangeCurrentUser(String userID) {
+        userData = new UserData(userID);
+    }
+
     public UserData GetCurrentUser() {
-        return userData;
+
+        if (userData != null)
+            return userData;
+        else
+            throw new NullPointerException("Current user is not set");
+    }
+
+    public boolean IsUserSignedIn() {
+        return userData == null ? false : true;
     }
     //endregion
 
