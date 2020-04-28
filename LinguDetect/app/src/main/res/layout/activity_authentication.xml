@@ -18,25 +18,18 @@
             android:text="Log In Anonymously"
             tools:text="Log In Anonymously" />
 
-        <Button
-        android:id="@+id/btnAuthWithGoogle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Log In With Google"
-        tools:text="Log In With Google" />
-
-        <Button
-            android:id="@+id/btnLogoutWithGoogle"
+        <com.google.android.gms.common.SignInButton
+            android:id="@+id/btnAuthWithGoogle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Log Out With Google"
-            tools:text="Log Out With Google" />
+            android:text="Log In With Google"
+            tools:text="Log In With Google" />
+
 
         <TextView
             android:id="@+id/txtStatus"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="TextView" />
+            android:layout_height="wrap_content" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

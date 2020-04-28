@@ -60,6 +60,7 @@ import com.drunkornot.lingudetect.lingu.Timer;
 import com.drunkornot.lingudetect.lingu.Translator;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseApp;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.nio.ByteBuffer;
 
@@ -93,6 +94,7 @@ public abstract class CameraActivity extends AppCompatActivity
     private Runnable imageConverter;
     private Button btnChangeCombineResults;
     private Button btnGoToHistoryActivity;
+    private Button btnLogOutWithGoogle;
     private TextView txtLearningLang;
     private TextView txtNativeLang;
     private LinearLayout gestureLayout;
@@ -157,11 +159,20 @@ public abstract class CameraActivity extends AppCompatActivity
             }
         });
 
+        btnLogOutWithGoogle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AppSettings.Instance().ChangeCurrentUser(null);
+                FirebaseAuth.getInstance().signOut();
+            }
+        });
     }
+
 
     private void InitView() {
         btnChangeCombineResults = findViewById(R.id.btnCombine);
         btnGoToHistoryActivity = findViewById(R.id.btnHistory);
+        btnLogOutWithGoogle = findViewById(R.id.btnLogoutWithGoogle);
         txtLearningLang = findViewById(R.id.txtLearningLang);
         txtNativeLang = findViewById(R.id.txtNativeLang);
     }
@@ -382,8 +393,7 @@ public abstract class CameraActivity extends AppCompatActivity
             controlsEditEnd();
 
             speaker.TrySpeak(noResultTranslatedTask.getResult());
-        }
-        else {
+        } else {
             controlsEditStart();
             String learningText = formatCombinedString(summand1.GetLearningText(), summand2.GetLearningText(), result.GetLearningText());
             txtLearningLang.setText(learningText);

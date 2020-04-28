@@ -83,7 +83,15 @@
                     android:layout_height="match_parent"
                     android:layout_below="@+id/txtNativeLang"
                     android:layout_marginTop="10dp"
-                    tools:context="org.tensorflow.demo.CameraActivity"></FrameLayout>
+                    tools:context="org.tensorflow.demo.CameraActivity">
+
+                    <Button
+                        android:id="@+id/btnLogoutWithGoogle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Log Out With Google"
+                        tools:text="Log Out With Google" />
+                </FrameLayout>
 
 
             </RelativeLayout>

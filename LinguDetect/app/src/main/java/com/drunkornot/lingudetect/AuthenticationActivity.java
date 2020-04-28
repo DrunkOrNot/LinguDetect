@@ -15,6 +15,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -35,8 +36,7 @@ public class AuthenticationActivity extends AppCompatActivity {
     //endregion
     //region UI
     Button btnLogInAnonymously;
-    Button btnLogInWithGoogle;
-    Button btnLogOutWithGoogle;
+    SignInButton btnLogInWithGoogle;
     TextView txtStatus;
     //endregion
 
@@ -47,7 +47,7 @@ public class AuthenticationActivity extends AppCompatActivity {
 
         btnLogInAnonymously = findViewById(R.id.btnAuthAnonymously);
         btnLogInWithGoogle = findViewById(R.id.btnAuthWithGoogle);
-        btnLogOutWithGoogle = findViewById(R.id.btnLogoutWithGoogle);
+
         txtStatus = findViewById(R.id.txtStatus);
 
         mAuth = FirebaseAuth.getInstance();
@@ -66,13 +66,7 @@ public class AuthenticationActivity extends AppCompatActivity {
             }
         });
 
-        btnLogOutWithGoogle.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                AppSettings.Instance().ChangeCurrentUser(null);
-                FirebaseAuth.getInstance().signOut();
-            }
-        });
+
     }
 
 //region Request LogIn
