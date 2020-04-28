@@ -9,7 +9,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.drunkornot.lingudetect.lingu.AppSettings;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -24,7 +23,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.GoogleAuthProvider;
 
-public class LoginActivity extends AppCompatActivity {
+public class AuthenticationActivity extends AppCompatActivity {
 
     private static final String TAG = "LoginActivity";
     //region Firebase SignIn
@@ -37,16 +36,18 @@ public class LoginActivity extends AppCompatActivity {
     //region UI
     Button btnLogInAnonymously;
     Button btnLogInWithGoogle;
+    Button btnLogOutWithGoogle;
     TextView txtStatus;
     //endregion
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+        setContentView(R.layout.activity_authentication);
 
         btnLogInAnonymously = findViewById(R.id.btnAuthAnonymously);
         btnLogInWithGoogle = findViewById(R.id.btnAuthWithGoogle);
+        btnLogOutWithGoogle = findViewById(R.id.btnLogoutWithGoogle);
         txtStatus = findViewById(R.id.txtStatus);
 
         mAuth = FirebaseAuth.getInstance();
@@ -62,6 +63,14 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 AuthenticateWithGoogle();
+            }
+        });
+
+        btnLogOutWithGoogle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AppSettings.Instance().ChangeCurrentUser(null);
+                FirebaseAuth.getInstance().signOut();
             }
         });
     }
@@ -151,7 +160,7 @@ private void AuthenticateWithGoogle() {
         if(AppSettings.Instance().IsUserSignedIn() == false)
             throw new IllegalStateException("Authentication was successful but current user is null");
 
-        LoginActivity.this.startActivity(new Intent(LoginActivity.this, MainActivity.class));
+        AuthenticationActivity.this.startActivity(new Intent(AuthenticationActivity.this, MainActivity.class));
     }
 
     public void AuthenticationFailure(String message) {

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".LoginActivity">
+    tools:context=".AuthenticationActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -19,11 +19,18 @@
             tools:text="Log In Anonymously" />
 
         <Button
-            android:id="@+id/btnAuthWithGoogle"
+        android:id="@+id/btnAuthWithGoogle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Log In With Google"
+        tools:text="Log In With Google" />
+
+        <Button
+            android:id="@+id/btnLogoutWithGoogle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Log In With Google"
-            tools:text="Log In With Google" />
+            android:text="Log Out With Google"
+            tools:text="Log Out With Google" />
 
         <TextView
             android:id="@+id/txtStatus"
