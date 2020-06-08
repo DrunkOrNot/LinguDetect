@@ -97,7 +97,6 @@ public abstract class CameraActivity extends AppCompatActivity
     private Button btnLogOutWithGoogle;
     private TextView txtLearningLang;
     private TextView txtNativeLang;
-    private LinearLayout gestureLayout;
 
     private static boolean allPermissionsGranted(final int[] grantResults) {
         for (int result : grantResults) {
@@ -162,8 +161,10 @@ public abstract class CameraActivity extends AppCompatActivity
         btnLogOutWithGoogle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // TODO: To refactor. App Settings should not be handling user logging in and out
+                if(AppSettings.Instance().GetCurrentUserAuthType() == AppSettings.AuthType.Google)
+                    FirebaseAuth.getInstance().signOut();
                 AppSettings.Instance().ChangeCurrentUser(null, AppSettings.AuthType.None);
-                FirebaseAuth.getInstance().signOut();
             }
         });
     }

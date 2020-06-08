@@ -81,7 +81,10 @@ public class AppSettings {
 
     public void ChangeCurrentUser(String userID, AuthType authType) {
         this.authType = authType;
-        userData = new UserData(userID);
+        if(userID == null || authType == AuthType.None)
+           userData = null;
+        else
+            userData = new UserData(userID);
     }
 
     public UserData GetCurrentUser() {
