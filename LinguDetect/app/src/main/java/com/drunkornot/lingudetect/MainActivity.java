@@ -26,7 +26,6 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
     Button btnGoToCameraActivity;
     Spinner spLang;
-    private DatabaseReference mDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,20 +72,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void TestPostToDatabase() {
-        mDatabase = FirebaseDatabase.getInstance().getReference();
-        mDatabase.child("users").child(AppSettings.Instance().GetCurrentUser().GetUsersID()).setValue("hello").addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess(Void aVoid) {
-                Toast.makeText(MainActivity.this, "Write successful",
-                        Toast.LENGTH_SHORT).show();
-            }
-        })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(MainActivity.this, "Write unsuccessful",
-                                Toast.LENGTH_SHORT).show();
-                    }
-                });
+
     }
 }

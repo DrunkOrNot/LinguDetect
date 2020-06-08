@@ -116,6 +116,7 @@ public class AppSettings {
     public void LogResult(Result result) {
         resultLog.Add(result);
         GetCurrentUser().AddToUserHistory(result);
+        Database.PostData(GetCurrentUser());
     }
     //endregion
 }
