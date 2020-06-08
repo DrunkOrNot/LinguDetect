@@ -70,9 +70,17 @@ public class AppSettings {
     //endregion
 
     //region UserData
-    private UserData userData;
+    public enum AuthType {
+        None,
+        Anonymous,
+        Google
+    }
 
-    public void ChangeCurrentUser(String userID) {
+    private UserData userData;
+    private AuthType authType;
+
+    public void ChangeCurrentUser(String userID, AuthType authType) {
+        this.authType = authType;
         userData = new UserData(userID);
     }
 
@@ -82,6 +90,13 @@ public class AppSettings {
             return userData;
         else
             throw new NullPointerException("Current user is not set");
+    }
+
+    public AuthType GetCurrentUserAuthType() {
+        if(IsUserSignedIn())
+            return authType;
+        else
+            throw new NullPointerException("Cannot get auth type: Current user is not set");
     }
 
     public boolean IsUserSignedIn() {

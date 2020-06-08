@@ -162,7 +162,7 @@ public abstract class CameraActivity extends AppCompatActivity
         btnLogOutWithGoogle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AppSettings.Instance().ChangeCurrentUser(null);
+                AppSettings.Instance().ChangeCurrentUser(null, AppSettings.AuthType.None);
                 FirebaseAuth.getInstance().signOut();
             }
         });
@@ -175,6 +175,9 @@ public abstract class CameraActivity extends AppCompatActivity
         btnLogOutWithGoogle = findViewById(R.id.btnLogoutWithGoogle);
         txtLearningLang = findViewById(R.id.txtLearningLang);
         txtNativeLang = findViewById(R.id.txtNativeLang);
+
+        if(AppSettings.Instance().GetCurrentUserAuthType() != AppSettings.AuthType.Google)
+            btnLogOutWithGoogle.setVisibility(View.INVISIBLE);
     }
 
     protected int[] getRgbBytes() {

@@ -79,7 +79,7 @@ private void AuthenticateAnonymously() {
                     if (task.isSuccessful()) {
                         // Sign in success, update UI with the signed-in user's information
                         Log.d(TAG, "signInAnonymously:success");
-                        AuthenticationSuccess();
+                        AuthenticationSuccess(AppSettings.AuthType.Anonymous);
                     } else {
                         // If sign in fails, display a message to the user.
                         Log.w(TAG, "signInAnonymously:failure", task.getException());
@@ -132,7 +132,7 @@ private void AuthenticateWithGoogle() {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithCredential:success");
-                            AuthenticationSuccess();
+                            AuthenticationSuccess(AppSettings.AuthType.Google);
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "signInWithCredential:failure", task.getException());
@@ -148,8 +148,8 @@ private void AuthenticateWithGoogle() {
         txtStatus.setText("Authentication in progress...");
     }
 
-    public void AuthenticationSuccess() {
-        AppSettings.Instance().ChangeCurrentUser(mAuth.getUid());
+    public void AuthenticationSuccess(AppSettings.AuthType authType) {
+        AppSettings.Instance().ChangeCurrentUser(mAuth.getUid(), authType);
 
         if(AppSettings.Instance().IsUserSignedIn() == false)
             throw new IllegalStateException("Authentication was successful but current user is null");
