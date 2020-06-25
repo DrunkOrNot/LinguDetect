@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.drunkornot.lingudetect.lingu.AppSettings;
+import com.drunkornot.lingudetect.lingu.Database;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -153,7 +154,9 @@ private void AuthenticateWithGoogle() {
 
         if(AppSettings.Instance().IsUserSignedIn() == false)
             throw new IllegalStateException("Authentication was successful but current user is null");
-
+        //
+        //Database.GetData();
+        //
         AuthenticationActivity.this.startActivity(new Intent(AuthenticationActivity.this, MainActivity.class));
     }
 
