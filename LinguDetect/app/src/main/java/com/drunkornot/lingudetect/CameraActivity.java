@@ -165,6 +165,7 @@ public abstract class CameraActivity extends AppCompatActivity
                 if(AppSettings.Instance().GetCurrentUserAuthType() == AppSettings.AuthType.Google)
                     FirebaseAuth.getInstance().signOut();
                 AppSettings.Instance().ChangeCurrentUser(null, AppSettings.AuthType.None);
+                CameraActivity.this.startActivity(new Intent(CameraActivity.this, AuthenticationActivity.class));
             }
         });
     }

@@ -70,8 +70,4 @@ public class MainActivity extends AppCompatActivity {
     private void InitApp() {
         AppSettings.Instance().GetCurrentUser().SetUsersNativeLanguage(Locale.getDefault().getLanguage());
     }
-
-    public void TestPostToDatabase() {
-
-    }
 }
