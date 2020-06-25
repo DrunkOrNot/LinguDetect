@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 public class History extends RecyclerView.Adapter {
 
-    ArrayList<Result> history = new ArrayList<>();
+    public ArrayList<Result> history = new ArrayList<>();
 
     public History() {
 

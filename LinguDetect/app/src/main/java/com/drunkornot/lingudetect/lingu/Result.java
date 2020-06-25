@@ -1,11 +1,11 @@
 package com.drunkornot.lingudetect.lingu;
 
 public class Result {
-    private String nativeText;
-    private String learningText;
-    private String keyName;
-    private String nativeLang;
-    private String learningLang;
+    public String nativeText;
+    public String learningText;
+    public String keyName;
+    public String nativeLang;
+    public String learningLang;
 
     public Result(String keyName, String nativeLang, String learningLang) {
         this.keyName = keyName;
