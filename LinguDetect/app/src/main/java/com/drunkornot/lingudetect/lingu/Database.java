@@ -24,16 +24,8 @@ public class Database {
 
     public static int PostData(UserData userData) {
         mDatabase = FirebaseDatabase.getInstance().getReference();
-        mDatabase.child("users").child(AppSettings.Instance().GetCurrentUser().GetUsersID()).setValue("hello2").addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess(Void aVoid) {
-            }
-        })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                    }
-                });
+
+        mDatabase.child("users").child(AppSettings.Instance().GetCurrentUser().GetUsersID()).setValue(userData);
         return 0;
     }
 }

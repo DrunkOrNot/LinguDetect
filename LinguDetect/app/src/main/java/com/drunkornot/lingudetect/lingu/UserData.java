@@ -9,10 +9,10 @@ public class UserData {
         history = new History();
     }
 
-    private String userID;
-    private String userNativeLang;
-    private String userLearningLang;
-    private History history;
+    public String userID;
+    public String userNativeLang;
+    public String userLearningLang;
+    public History history;
 
     // Provide BCP-47 code only
     public void SetUsersNativeLanguage(String lang) {
