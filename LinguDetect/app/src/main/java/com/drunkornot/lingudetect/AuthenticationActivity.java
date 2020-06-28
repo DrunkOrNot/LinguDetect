@@ -166,13 +166,17 @@ private void AuthenticateWithGoogle() {
     public void onUserDataReceivedFromDatabase(UserData userData) {
         if(!AppSettings.Instance().IsUserSignedIn()) {
         if(userData == null) {
+            userData = new UserData(mAuth.getUid());
+        }
+        AppSettings.Instance().ChangeCurrentUser(userData);
+        AuthenticationActivity.this.startActivity(new Intent(AuthenticationActivity.this, MainActivity.class));
+        }
+    }
+    @Override
+    public void onUserDataReceivedFailure(){
+        if(!AppSettings.Instance().IsUserSignedIn()) {
             AuthenticationFailure("Failed getting data from database");
             AppSettings.Instance().SetAuthType(AppSettings.AuthType.None);
-        }
-        else {
-                AppSettings.Instance().ChangeCurrentUser(userData);
-                AuthenticationActivity.this.startActivity(new Intent(AuthenticationActivity.this, MainActivity.class));
-            }
         }
     }
 }
