@@ -164,7 +164,7 @@ public abstract class CameraActivity extends AppCompatActivity
                 // TODO: To refactor. App Settings should not be handling user logging in and out
                 if(AppSettings.Instance().GetCurrentUserAuthType() == AppSettings.AuthType.Google)
                     FirebaseAuth.getInstance().signOut();
-                AppSettings.Instance().ChangeCurrentUser(null, AppSettings.AuthType.None);
+                AppSettings.Instance().LogUserOut();
                 CameraActivity.this.startActivity(new Intent(CameraActivity.this, AuthenticationActivity.class));
             }
         });

@@ -79,12 +79,17 @@ public class AppSettings {
     private UserData userData;
     private AuthType authType;
 
-    public void ChangeCurrentUser(String userID, AuthType authType) {
-        this.authType = authType;
-        if(userID == null || authType == AuthType.None)
-           userData = null;
-        else
-            userData = new UserData(userID);
+    public void SetAuthType(AuthType type) {
+        authType = type;
+    }
+
+    public void LogUserOut() {
+        userData = null;
+        authType = AuthType.None;
+    }
+
+    public void ChangeCurrentUser(UserData data) {
+            userData = data;
     }
 
     public UserData GetCurrentUser() {

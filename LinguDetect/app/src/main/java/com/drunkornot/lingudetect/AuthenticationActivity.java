@@ -12,6 +12,8 @@ import android.widget.TextView;
 
 import com.drunkornot.lingudetect.lingu.AppSettings;
 import com.drunkornot.lingudetect.lingu.Database;
+import com.drunkornot.lingudetect.lingu.IUserDataChangeListener;
+import com.drunkornot.lingudetect.lingu.UserData;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -25,7 +27,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.GoogleAuthProvider;
 
-public class AuthenticationActivity extends AppCompatActivity {
+public class AuthenticationActivity extends AppCompatActivity implements IUserDataChangeListener  {
 
     private static final String TAG = "LoginActivity";
     //region Firebase SignIn
@@ -52,6 +54,8 @@ public class AuthenticationActivity extends AppCompatActivity {
         txtStatus = findViewById(R.id.txtStatus);
 
         mAuth = FirebaseAuth.getInstance();
+
+        Database.AddListener(this);
         
         btnLogInAnonymously.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -150,17 +154,25 @@ private void AuthenticateWithGoogle() {
     }
 
     public void AuthenticationSuccess(AppSettings.AuthType authType) {
-        AppSettings.Instance().ChangeCurrentUser(mAuth.getUid(), authType);
-
-        if(AppSettings.Instance().IsUserSignedIn() == false)
-            throw new IllegalStateException("Authentication was successful but current user is null");
-        //
-        Database.GetData();
-        //
-        AuthenticationActivity.this.startActivity(new Intent(AuthenticationActivity.this, MainActivity.class));
+        AppSettings.Instance().SetAuthType(authType);
+        Database.GetData(mAuth.getUid());
     }
 
     public void AuthenticationFailure(String message) {
         txtStatus.setText(message);
+    }
+
+    @Override
+    public void onUserDataReceivedFromDatabase(UserData userData) {
+        if(!AppSettings.Instance().IsUserSignedIn()) {
+        if(userData == null) {
+            AuthenticationFailure("Failed getting data from database");
+            AppSettings.Instance().SetAuthType(AppSettings.AuthType.None);
+        }
+        else {
+                AppSettings.Instance().ChangeCurrentUser(userData);
+                AuthenticationActivity.this.startActivity(new Intent(AuthenticationActivity.this, MainActivity.class));
+            }
+        }
     }
 }
