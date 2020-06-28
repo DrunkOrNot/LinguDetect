@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "23090686510-ctps82b4mb4tkb0f8nrrg6lfci0rnl0q.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.drunkornot.lingudetect",
+            "certificate_hash": "32702a40a8f3b235f883bc8c9555a370a4bcba92"
+          }
+        },
+        {
           "client_id": "23090686510-agcic21qchmlv60v63rcggtp9cfjma6f.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
