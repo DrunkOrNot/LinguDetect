@@ -7,6 +7,8 @@ public class Result {
     public String nativeLang;
     public String learningLang;
 
+    public Result() {}
+
     public Result(String keyName, String nativeLang, String learningLang) {
         this.keyName = keyName;
         this.nativeLang = nativeLang;

@@ -32,7 +32,7 @@ public class Database {
     public static void GetData() {
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
-        Object query = mDatabase.orderByChild(AppSettings.Instance().GetCurrentUser().GetUsersID()).addValueEventListener(new ValueEventListener() {
+        Object query = mDatabase.child(AppSettings.Instance().GetCurrentUser().GetUsersID()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 UserData userData = dataSnapshot.getValue(UserData.class);

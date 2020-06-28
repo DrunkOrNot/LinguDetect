@@ -4,6 +4,9 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class UserData {
 
+    public UserData() {
+    }
+
     public UserData(String userID) {
         this.userID = userID;
         history = new History();

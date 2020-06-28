@@ -155,7 +155,7 @@ private void AuthenticateWithGoogle() {
         if(AppSettings.Instance().IsUserSignedIn() == false)
             throw new IllegalStateException("Authentication was successful but current user is null");
         //
-        //Database.GetData();
+        Database.GetData();
         //
         AuthenticationActivity.this.startActivity(new Intent(AuthenticationActivity.this, MainActivity.class));
     }
