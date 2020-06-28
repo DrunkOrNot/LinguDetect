@@ -44,7 +44,7 @@ public class ResultsProcessor {
             PromoteResult(result);
         }
 
-        AppSettings.Instance().GetHistory().Add(result);
+        AppSettings.Instance().LogResult(result);
     }
 
     private void PromoteResult(Result result) {
@@ -54,10 +54,10 @@ public class ResultsProcessor {
     }
 
     private void PromoteCombinedResult(Result result) {
-        Result finalResult = Combiner.Combine(AppSettings.Instance().GetHistory().GetLastResult(), result);
+        Result finalResult = Combiner.Combine(AppSettings.Instance().GetResultLog().GetLastResult(), result);
 
         for (IPromoteResultsListener listener : listeners) {
-                listener.onPromoteCombinedResult(AppSettings.Instance().GetHistory().GetLastResult(), result, finalResult );
+                listener.onPromoteCombinedResult(AppSettings.Instance().GetResultLog().GetLastResult(), result, finalResult );
         }
         combineResults = false;
 

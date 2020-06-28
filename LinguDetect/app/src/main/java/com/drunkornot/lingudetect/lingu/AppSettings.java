@@ -12,8 +12,7 @@ public class AppSettings {
 
     private AppSettings() {
         InitializeLanguages();
-        userData = new UserData();
-        history = new History();
+        resultLog = new History();
     }
 
     static private AppSettings instance;
@@ -71,18 +70,58 @@ public class AppSettings {
     //endregion
 
     //region UserData
+    public enum AuthType {
+        None,
+        Anonymous,
+        Google
+    }
+
     private UserData userData;
+    private AuthType authType;
+
+    public void SetAuthType(AuthType type) {
+        authType = type;
+    }
+
+    public void LogUserOut() {
+        userData = null;
+        authType = AuthType.None;
+    }
+
+    public void ChangeCurrentUser(UserData data) {
+            userData = data;
+    }
 
     public UserData GetCurrentUser() {
-        return userData;
+
+        if (userData != null)
+            return userData;
+        else
+            throw new NullPointerException("Current user is not set");
+    }
+
+    public AuthType GetCurrentUserAuthType() {
+        if(IsUserSignedIn())
+            return authType;
+        else
+            throw new NullPointerException("Cannot get auth type: Current user is not set");
+    }
+
+    public boolean IsUserSignedIn() {
+        return userData == null ? false : true;
     }
     //endregion
 
-    //region History
-    private History history;
+    //region ResultLog
+    private History resultLog;
 
-    public History GetHistory() {
-        return history;
+    public History GetResultLog() {
+        return resultLog;
+    }
+    public void LogResult(Result result) {
+        resultLog.Add(result);
+        GetCurrentUser().AddToUserHistory(result);
+        Database.PostData(GetCurrentUser());
     }
     //endregion
 }

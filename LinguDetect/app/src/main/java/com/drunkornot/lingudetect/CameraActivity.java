@@ -20,6 +20,7 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Fragment;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.hardware.Camera;
 import android.hardware.camera2.CameraAccessException;
@@ -59,6 +60,7 @@ import com.drunkornot.lingudetect.lingu.Timer;
 import com.drunkornot.lingudetect.lingu.Translator;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseApp;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.nio.ByteBuffer;
 
@@ -91,9 +93,10 @@ public abstract class CameraActivity extends AppCompatActivity
     private Runnable postInferenceCallback;
     private Runnable imageConverter;
     private Button btnChangeCombineResults;
+    private Button btnGoToHistoryActivity;
+    private Button btnLogOutWithGoogle;
     private TextView txtLearningLang;
     private TextView txtNativeLang;
-    private LinearLayout gestureLayout;
 
     private static boolean allPermissionsGranted(final int[] grantResults) {
         for (int result : grantResults) {
@@ -136,10 +139,10 @@ public abstract class CameraActivity extends AppCompatActivity
             @Override
             public void onClick(View v) {
                 controlsEditStart();
-                if (AppSettings.Instance().GetHistory().HasLastResult()) {
-                    String learningTextToSet = formatCombinedString(AppSettings.Instance().GetHistory().GetLastResult().GetLearningText(), null, null);
+                if (AppSettings.Instance().GetResultLog().HasLastResult()) {
+                    String learningTextToSet = formatCombinedString(AppSettings.Instance().GetResultLog().GetLastResult().GetLearningText(), null, null);
                     txtLearningLang.setText(learningTextToSet);
-                    String nativeTextToSet = formatCombinedString(AppSettings.Instance().GetHistory().GetLastResult().GetNativeText(), null, null);
+                    String nativeTextToSet = formatCombinedString(AppSettings.Instance().GetResultLog().GetLastResult().GetNativeText(), null, null);
                     txtNativeLang.setText(nativeTextToSet);
                     processor.EnableCombined(true);
                 }
@@ -147,12 +150,36 @@ public abstract class CameraActivity extends AppCompatActivity
             }
         });
 
+        btnGoToHistoryActivity.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("SetTextI18n")
+            @Override
+            public void onClick(View v) {
+                CameraActivity.this.startActivity(new Intent(CameraActivity.this, HistoryActivity.class));
+            }
+        });
+
+        btnLogOutWithGoogle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // TODO: To refactor. App Settings should not be handling user logging in and out
+                if(AppSettings.Instance().GetCurrentUserAuthType() == AppSettings.AuthType.Google)
+                    FirebaseAuth.getInstance().signOut();
+                AppSettings.Instance().LogUserOut();
+                CameraActivity.this.startActivity(new Intent(CameraActivity.this, AuthenticationActivity.class));
+            }
+        });
     }
+
 
     private void InitView() {
         btnChangeCombineResults = findViewById(R.id.btnCombine);
+        btnGoToHistoryActivity = findViewById(R.id.btnHistory);
+        btnLogOutWithGoogle = findViewById(R.id.btnLogoutWithGoogle);
         txtLearningLang = findViewById(R.id.txtLearningLang);
         txtNativeLang = findViewById(R.id.txtNativeLang);
+
+        if(AppSettings.Instance().GetCurrentUserAuthType() != AppSettings.AuthType.Google)
+            btnLogOutWithGoogle.setVisibility(View.INVISIBLE);
     }
 
     protected int[] getRgbBytes() {
@@ -371,8 +398,7 @@ public abstract class CameraActivity extends AppCompatActivity
             controlsEditEnd();
 
             speaker.TrySpeak(noResultTranslatedTask.getResult());
-        }
-        else {
+        } else {
             controlsEditStart();
             String learningText = formatCombinedString(summand1.GetLearningText(), summand2.GetLearningText(), result.GetLearningText());
             txtLearningLang.setText(learningText);

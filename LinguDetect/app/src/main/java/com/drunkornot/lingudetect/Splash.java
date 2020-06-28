@@ -2,7 +2,6 @@ package com.drunkornot.lingudetect;
 
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
-import android.graphics.Camera;
 import android.os.Bundle;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -25,7 +24,7 @@ public class Splash extends AppCompatActivity {
             public void run() {
                 try {
                     sleep(3500);
-                    Intent intentMain = new Intent(getApplicationContext(),MainActivity.class);
+                    Intent intentMain = new Intent(getApplicationContext(), AuthenticationActivity.class);
                     startActivity(intentMain);
                     finish();
                     super.run();

@@ -72,13 +72,32 @@
                     android:textAlignment="center"
                     android:textColor="#000000" />
 
+                <Button
+                    android:id="@+id/btnHistory"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginBottom="20dp"
+                    android:background="@drawable/button_history"
+                    android:drawableTop="@drawable/ic_history_black_50dp" />
+
                 <FrameLayout
                     android:id="@+id/container"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_below="@+id/txtLearningLang"
                     android:layout_marginTop="10dp"
-                    tools:context="org.tensorflow.demo.CameraActivity"></FrameLayout>
+                    tools:context="org.tensorflow.demo.CameraActivity">
+
+                    <Button
+                        android:id="@+id/btnLogoutWithGoogle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Log Out With Google"
+                        tools:text="Log Out With Google" />
+                </FrameLayout>
 
 
             </RelativeLayout>

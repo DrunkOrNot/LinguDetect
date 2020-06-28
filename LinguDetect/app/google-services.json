@@ -15,6 +15,22 @@
       },
       "oauth_client": [
         {
+          "client_id": "23090686510-agcic21qchmlv60v63rcggtp9cfjma6f.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.drunkornot.lingudetect",
+            "certificate_hash": "5a18ae09bd06ae4e8197bdcd304ca5c53a1efb0f"
+          }
+        },
+        {
+          "client_id": "23090686510-nnrg17gn0i46sscndvm7kgf6s4arak9c.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.drunkornot.lingudetect",
+            "certificate_hash": "b51c779f49047fdefe815707cbaf3944e5044c0e"
+          }
+        },
+        {
           "client_id": "23090686510-r3skfvlk7npb1u31cuj1h1boa4lf6tre.apps.googleusercontent.com",
           "client_type": 3
         }
