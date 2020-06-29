@@ -94,8 +94,9 @@
                     android:textColor="#000000"
                     android:background="@drawable/button_logout"
                     android:drawableTop="@drawable/ic_google"
-                    android:text="Log Out With Google"
-                    tools:text="Log Out" />
+                    android:textSize="10sp"
+                    android:text="LogOut"
+                    tools:text="LogOut" />
 
                 <FrameLayout
                     android:id="@+id/container"
