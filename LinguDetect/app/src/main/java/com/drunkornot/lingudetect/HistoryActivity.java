@@ -8,6 +8,8 @@ import android.os.Bundle;
 
 import com.drunkornot.lingudetect.lingu.AppSettings;
 
+import java.util.ArrayList;
+
 public class HistoryActivity extends AppCompatActivity {
 
     private RecyclerView rvHistory;
@@ -18,6 +20,9 @@ public class HistoryActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_history);
+
+        ArrayList<Result> history = new ArrayList<>();
+        history.add(new Result("Line 1", "Line 2"));
 
         rvHistory = findViewById(R.id.rvHistory);
         rvHistory.setHasFixedSize(true);
