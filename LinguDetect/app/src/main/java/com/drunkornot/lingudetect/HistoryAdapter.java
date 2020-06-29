@@ -23,8 +23,6 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.HistoryV
     this.history = history.GetHistoryAsList();
 }
 
-    @NonNull
-
     @Override
     public void onBindViewHolder(@NonNull HistoryViewHolder holder, int position) {
         Result currentResult = history.get(position);
@@ -49,8 +47,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.HistoryV
         }
     }
 
-
-
+    @NonNull
     @Override
     public HistoryViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.history_item, parent, false);
